@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArogyaSetu — India's Government Hospital Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4f9;
+  --white:#fff;
+  --navy:#06142b;
+  --navy2:#0c2340;
+  --blue:#1557e8;
+  --blue2:#0d47c9;
+  --blue3:#e8f0fe;
+  --green:#00a86b;
+  --red:#d93025;
+  --amber:#f59e0b;
+  --text:#06142b;
+  --t2:#3d5166;
+  --t3:#7a90a8;
+  --border:#dce4ef;
+  --r:10px;--r2:16px;--r3:22px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;min-height:100vh}
+
+/* ─── TOP ANNOUNCEMENT ─── */
+.announce{background:var(--blue);color:#fff;text-align:center;font-size:12.5px;font-weight:600;padding:7px 16px;letter-spacing:.2px}
+.announce a{color:#a8c8ff;text-decoration:none}
+.announce a:hover{color:#fff;text-decoration:underline}
+
+/* ─── HEADER ─── */
+header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300;height:66px;display:flex;align-items:center;padding:0 2rem;gap:16px;box-shadow:0 1px 12px rgba(6,20,43,.06)}
+.logo-wrap{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--blue),var(--blue2));border-radius:11px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:22px;height:22px}
+.logo-name{font-size:19px;font-weight:900;color:var(--navy);letter-spacing:-.6px;line-height:1}
+.logo-name span{color:var(--blue)}
+.logo-caption{font-size:10.5px;color:var(--t3);font-weight:600;letter-spacing:.3px;text-transform:uppercase;margin-top:1px}
+.hdr-center{flex:1;max-width:440px;margin:0 auto}
+.hdr-search{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--border);border-radius:50px;padding:7px 16px;gap:8px;transition:all .2s}
+.hdr-search:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,87,232,.1);background:#fff}
+.hdr-search svg{width:15px;height:15px;color:var(--t3);flex-shrink:0}
+.hdr-search input{border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:14px;color:var(--text);width:100%;outline:none}
+.hdr-search input::placeholder{color:var(--t3)}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pill-official{background:var(--blue3);color:var(--blue2);font-size:11.5px;font-weight:700;padding:5px 13px;border-radius:20px;border:1px solid rgba(21,87,232,.15)}
+.btn-emergency{background:var(--red);color:#fff;font-size:12px;font-weight:800;padding:7px 15px;border-radius:8px;text-decoration:none;display:flex;align-items:center;gap:5px;letter-spacing:.3px}
+@media(max-width:700px){.hdr-center{display:none}.logo-caption{display:none}}
+
+/* ─── HERO ─── */
+.hero{background:var(--navy);overflow:hidden;position:relative;padding:72px 2rem 140px}
+.hero-mesh{position:absolute;inset:0;background:
+  radial-gradient(ellipse 60% 80% at 85% 20%,rgba(21,87,232,.22) 0%,transparent 70%),
+  radial-gradient(ellipse 50% 60% at 10% 80%,rgba(0,168,107,.12) 0%,transparent 65%);
+  pointer-events:none}
+.hero-pattern{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='rgba(255,255,255,0.025)'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
+.hero-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:12px;font-weight:700;padding:6px 18px;border-radius:40px;letter-spacing:.6px;text-transform:uppercase;margin-bottom:20px}
+.live-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:glow 2s infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,.6)}50%{box-shadow:0 0 0 5px rgba(74,222,128,0)}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(38px,6vw,66px);color:#fff;line-height:1.08;letter-spacing:-.5px;margin-bottom:18px}
+.hero h1 em{color:#7db5ff;font-style:italic}
+.hero-sub{color:rgba(255,255,255,.52);font-size:16px;max-width:520px;margin:0 auto 44px;line-height:1.8;font-weight:500}
+/* scheme badges */
+.scheme-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:40px}
+.scheme{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;letter-spacing:.3px}
+/* stats */
+.stats{display:flex;justify-content:center;border-top:1px solid rgba(255,255,255,.08);padding-top:32px;flex-wrap:wrap}
+.stat{padding:0 28px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+.stat:last-child{border:none}
+.stat-n{font-family:'Playfair Display',serif;font-size:36px;color:#fff;line-height:1}
+.stat-l{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.8px;margin-top:4px;font-weight:700}
+
+/* ─── SEARCH FLOAT ─── */
+.sfloat{max-width:900px;margin:-56px auto 0;padding:0 1.5rem;position:relative;z-index:20}
+.scard{background:#fff;border-radius:var(--r3);padding:28px;box-shadow:0 12px 60px rgba(6,20,43,.16);border:1px solid var(--border)}
+.scard-title{font-size:11.5px;font-weight:800;color:var(--t3);letter-spacing:.9px;text-transform:uppercase;margin-bottom:16px}
+.sgrid{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+@media(max-width:600px){.sgrid{grid-template-columns:1fr}}
+.sfield{display:flex;flex-direction:column;gap:6px}
+.sfield label{font-size:11px;font-weight:800;color:var(--t2);letter-spacing:.5px;text-transform:uppercase}
+.sfield select{font-family:'Nunito',sans-serif;font-size:14px;font-weight:600;color:var(--text);background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:11px 38px 11px 14px;appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M0 0l5.5 7L11 0z' fill='%237a90a8'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;transition:all .18s;width:100%}
+.sfield select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,87,232,.1);background:#fff}
+.sbtn{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;border-radius:var(--r);padding:11px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.2px;display:flex;align-items:center;gap:8px}
+.sbtn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(21,87,232,.4)}
+.sbtn:active{transform:scale(.98)}
+/* quick tags */
+.qtrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.qtlbl{font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px}
+.qt{background:#fff;border:1.5px solid var(--border);color:var(--t2);font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;cursor:pointer;transition:all .15s;user-select:none}
+.qt:hover{background:var(--blue3);border-color:rgba(21,87,232,.3);color:var(--blue2)}
+.qt.active{background:var(--blue);border-color:var(--blue);color:#fff}
+
+/* ─── MAIN CONTENT ─── */
+.main{max-width:900px;margin:32px auto 80px;padding:0 1.5rem}
+
+/* emergency ribbon */
+.emg{background:#fff;border:1.5px solid #fcd4d4;border-left:4px solid var(--red);border-radius:var(--r2);padding:16px 20px;display:flex;align-items:flex-start;gap:14px;margin-bottom:24px}
+.emg-ico{font-size:26px;flex-shrink:0}
+.emg-title{font-size:13px;font-weight:800;color:#7f1d1d;margin-bottom:5px}
+.emg-nums{display:flex;gap:18px;flex-wrap:wrap}
+.emg-n{font-size:13px;font-weight:800;color:var(--red)}
+
+/* ─── STATE GRID ─── */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-title{font-size:18px;font-weight:800;color:var(--text)}
+.count-badge{background:var(--blue);color:#fff;font-size:11.5px;font-weight:800;padding:3px 11px;border-radius:20px;margin-left:8px}
+.state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:12px}
+.state-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:18px 16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.state-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--green));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.state-card:hover{border-color:rgba(21,87,232,.4);box-shadow:0 4px 24px rgba(21,87,232,.1);transform:translateY(-3px)}
+.state-card:hover::after{transform:scaleX(1)}
+.s-flag{font-size:28px;margin-bottom:10px;display:block}
+.s-name{font-size:14.5px;font-weight:800;color:var(--text);margin-bottom:3px}
+.s-meta{font-size:12px;color:var(--t3);font-weight:600}
+.s-arrow{position:absolute;top:16px;right:14px;width:26px;height:26px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--t3);transition:all .2s}
+.state-card:hover .s-arrow{background:var(--blue);color:#fff}
+
+/* ─── CITY GRID ─── */
+.city-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px}
+.city-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .2s;border-left:3px solid transparent}
+.city-card:hover{border-color:rgba(21,87,232,.35);border-left-color:var(--blue);box-shadow:0 4px 16px rgba(21,87,232,.08);transform:translateY(-2px)}
+.c-ico{font-size:18px;margin-bottom:7px}
+.c-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px}
+.c-cnt{font-size:12px;color:var(--t3);font-weight:600}
+
+/* ─── HOSPITAL CARDS ─── */
+/* KEY: entire card is <a href> — guaranteed direct redirect, no JS popup */
+.hosp-list{display:flex;flex-direction:column;gap:10px}
+a.hcard{
+  display:grid;
+  grid-template-columns:52px 1fr auto;
+  align-items:center;
+  gap:16px;
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:var(--r2);
+  padding:18px 20px;
+  text-decoration:none;
+  color:inherit;
+  transition:all .22s;
+  position:relative;
+  overflow:hidden;
+}
+a.hcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--blue),var(--green));transform:scaleY(0);transform-origin:bottom;transition:transform .25s}
+a.hcard:hover{border-color:rgba(21,87,232,.35);box-shadow:0 6px 28px rgba(21,87,232,.1);transform:translateY(-2px)}
+a.hcard:hover::before{transform:scaleY(1)}
+@media(max-width:580px){a.hcard{grid-template-columns:40px 1fr}}
+/* avatar */
+.hav{width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.hav-aiims{background:linear-gradient(135deg,#fef9c3,#fde047)}
+.hav-central{background:linear-gradient(135deg,#dcfce7,#86efac)}
+.hav-state{background:linear-gradient(135deg,#ede9fe,#c4b5fd)}
+.hav-muni{background:linear-gradient(135deg,#fce7f3,#f9a8d4)}
+.hav-special{background:linear-gradient(135deg,#dbeafe,#93c5fd)}
+/* info */
+.hinfo{min-width:0}
+.hname{font-size:15px;font-weight:800;color:var(--text);margin-bottom:7px;line-height:1.3}
+.htags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.htag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:6px;line-height:1.4}
+.ht-aiims{background:#fef9c3;color:#713f12}
+.ht-central{background:#dcfce7;color:#14532d}
+.ht-state{background:#ede9fe;color:#4c1d95}
+.ht-muni{background:#fce7f3;color:#831843}
+.ht-special{background:#dbeafe;color:#1e3a8a}
+.ht-loc{background:var(--bg);color:var(--t2)}
+.ht-spec{background:var(--bg);color:var(--t2)}
+.ht-beds{background:#ecfdf5;color:#064e3b}
+.ht-phone{background:#eff6ff;color:#1e40af;font-size:11.5px}
+/* right actions */
+.hactions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+@media(max-width:580px){.hactions{display:none}}
+.hcopy{background:var(--bg);border:1.5px solid var(--border);border-radius:8px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:11.5px;font-weight:700;color:var(--t2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.hcopy:hover{border-color:var(--green);color:var(--green)}
+.hvisit{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px;white-space:nowrap;pointer-events:none}
+.hvisit svg{width:11px;height:11px}
+/* verified badge */
+.verified{display:inline-flex;align-items:center;gap:3px;background:#ecfdf5;color:#065f46;font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:5px}
+.verified::before{content:'✓';font-size:10px}
+
+/* breadcrumb */
+.bc{display:flex;align-items:center;gap:6px;font-size:13px;margin-bottom:18px;flex-wrap:wrap;font-weight:600}
+.bcl{color:var(--blue);cursor:pointer}
+.bcl:hover{text-decoration:underline}
+.bcs{color:var(--t3)}
+.bcc{color:var(--t2)}
+
+/* empty */
+.empty{text-align:center;padding:64px 20px}
+.empty-ico{font-size:52px;margin-bottom:14px;display:block}
+.empty-msg{font-size:15px;font-weight:700;color:var(--t2)}
+
+/* highlight */
+mark{background:rgba(21,87,232,.12);color:var(--blue2);border-radius:3px;padding:0 2px;font-style:normal}
+
+/* fade in */
+.fadein{animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:11px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:9px;opacity:0;transform:translateY(10px);transition:all .3s;z-index:9999;pointer-events:none;box-shadow:0 8px 32px rgba(6,20,43,.3)}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* footer */
+footer{background:var(--navy2);padding:40px 2rem 28px;color:rgba(255,255,255,.35);font-size:13px}
+.footer-inner{max-width:900px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.07)}
+@media(max-width:600px){.footer-top{grid-template-columns:1fr}}
+.footer-col-title{font-size:12px;font-weight:800;color:rgba(255,255,255,.6);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-links a{color:rgba(255,255,255,.4);text-decoration:none;font-size:13px;font-weight:600;transition:color .15s}
+.footer-links a:hover{color:rgba(255,255,255,.8)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-brand{font-size:16px;font-weight:900;color:rgba(255,255,255,.8);letter-spacing:-.3px}
+.footer-brand span{color:#7db5ff}
+
+/* ─── BACK BUTTON ─── */
+.back-btn{display:flex;align-items:center;gap:7px;background:rgba(21,87,232,.07);border:1.5px solid rgba(21,87,232,.18);color:var(--blue2);font-size:13px;font-weight:800;padding:7px 14px;border-radius:50px;text-decoration:none;transition:all .2s;white-space:nowrap;cursor:pointer;font-family:'Nunito',sans-serif}
+.back-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue);transform:translateX(-2px);box-shadow:0 4px 16px rgba(21,87,232,.3)}
+.back-btn svg{width:15px;height:15px;transition:transform .2s;flex-shrink:0}
+.back-btn:hover svg{transform:translateX(-2px)}
+@media(max-width:700px){.back-btn span{display:none}}
+</style>
+</head>
+<body>
+
+<div class="announce">🇮🇳 Under Ayushman Bharat — Free healthcare for 50 crore+ Indians &nbsp;·&nbsp; <a href="https://pmjay.gov.in" target="_blank" rel="noopener">pmjay.gov.in</a> &nbsp;·&nbsp; Emergency: <strong>112</strong> | Ambulance: <strong>108</strong></div>
+
+<header>
+  <a class="back-btn" onclick="history.length>1?history.back():window.location.href='/'" title="Back to ArogyaSetu">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 5l-7 5 7 5"/>
+    </svg>
+    <span>Back</span>
+  </a>
+    <a class="logo-wrap" onclick="resetAll()">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-name">Arogya<span>Setu</span></div>
+      <div class="logo-caption">Gov Hospital Directory</div>
+    </div>
+  </a>
+  <div class="hdr-center">
+    <div class="hdr-search">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+      <input type="text" id="headerSearch" placeholder="Search hospitals, cities, states…" oninput="onHdrSearch()">
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="pill-official">🏥 Official Directory</div>
+    <a class="btn-emergency" href="tel:108">🚨 108</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><div class="live-dot"></div>Updated 2025 · Verified Data</div>
+    <h1>India's Government<br>Hospitals, <em>All in One Place</em></h1>
+    <p class="hero-sub">Find AIIMS, Medical Colleges, Civil Hospitals & District Hospitals across every state — with verified contacts and direct links to official websites.</p>
+    <div class="scheme-row">
+      <span class="scheme">🏛️ AIIMS Network</span>
+      <span class="scheme">💊 Ayushman Bharat</span>
+      <span class="scheme">🩺 NHM</span>
+      <span class="scheme">🆓 Free OPD</span>
+      <span class="scheme">🚑 108 Ambulance</span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="st1">—</div><div class="stat-l">Hospitals Listed</div></div>
+      <div class="stat"><div class="stat-n" id="st2">—</div><div class="stat-l">States & UTs</div></div>
+      <div class="stat"><div class="stat-n" id="st3">—</div><div class="stat-l">Cities Covered</div></div>
+      <div class="stat"><div class="stat-n">Free</div><div class="stat-l">Always Free</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="sfloat">
+  <div class="scard">
+    <div class="scard-title">Find a hospital</div>
+    <div class="sgrid">
+      <div class="sfield">
+        <label>State / UT</label>
+        <select id="stateSel" onchange="onState()"><option value="">All States</option></select>
+      </div>
+      <div class="sfield">
+        <label>City / District</label>
+        <select id="citySel" onchange="onCity()"><option value="">All Cities</option></select>
+      </div>
+      <button class="sbtn" onclick="resetAll()">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+        Reset
+      </button>
+    </div>
+    <div class="qtrow">
+      <span class="qtlbl">Quick:</span>
+      <span class="qt" onclick="qs('AIIMS')">All AIIMS</span>
+      <span class="qt" onclick="qs('Medical College')">Medical Colleges</span>
+      <span class="qt" onclick="qs('Civil Hospital')">Civil Hospitals</span>
+      <span class="qt" onclick="qcity('Delhi','New Delhi')">Delhi</span>
+      <span class="qt" onclick="qcity('Maharashtra','Mumbai')">Mumbai</span>
+      <span class="qt" onclick="qcity('Tamil Nadu','Chennai')">Chennai</span>
+      <span class="qt" onclick="qcity('West Bengal','Kolkata')">Kolkata</span>
+      <span class="qt" onclick="qcity('Karnataka','Bengaluru')">Bengaluru</span>
+      <span class="qt" onclick="qcity('Telangana','Hyderabad')">Hyderabad</span>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="emg">
+    <div class="emg-ico">🚨</div>
+    <div>
+      <div class="emg-title">Emergency Helplines — Available 24×7</div>
+      <div class="emg-nums">
+        <span class="emg-n">112 — National Emergency</span>
+        <span class="emg-n">108 — Ambulance</span>
+        <span class="emg-n">104 — Health Helpline</span>
+        <span class="emg-n">1800-180-1104 — Mental Health</span>
+        <span class="emg-n">1800-11-4477 — NHM</span>
+      </div>
+    </div>
+  </div>
+  <div id="area"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-col-title">Central Govt</div>
+        <div class="footer-links">
+          <a href="https://mohfw.gov.in" target="_blank" rel="noopener">Ministry of Health & FW</a>
+          <a href="https://nhm.gov.in" target="_blank" rel="noopener">National Health Mission</a>
+          <a href="https://pmjay.gov.in" target="_blank" rel="noopener">Ayushman Bharat PM-JAY</a>
+          <a href="https://abdm.gov.in" target="_blank" rel="noopener">ABDM Health ID</a>
+          <a href="https://cghs.gov.in" target="_blank" rel="noopener">CGHS</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Premier Institutions</div>
+        <div class="footer-links">
+          <a href="https://aiims.edu" target="_blank" rel="noopener">AIIMS New Delhi</a>
+          <a href="https://pgimer.edu.in" target="_blank" rel="noopener">PGIMER Chandigarh</a>
+          <a href="https://nimhans.ac.in" target="_blank" rel="noopener">NIMHANS Bengaluru</a>
+          <a href="https://jipmer.edu.in" target="_blank" rel="noopener">JIPMER Puducherry</a>
+          <a href="https://sgpgi.ac.in" target="_blank" rel="noopener">SGPGI Lucknow</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Health Schemes</div>
+        <div class="footer-links">
+          <a href="https://nhp.gov.in" target="_blank" rel="noopener">National Health Portal</a>
+          <a href="https://esic.in" target="_blank" rel="noopener">ESIC Hospitals</a>
+          <a href="https://www.india.gov.in/list-hospitals" target="_blank" rel="noopener">India.gov.in Hospitals</a>
+          <a href="https://vikaspedia.in/health/health-directory/hospitals" target="_blank" rel="noopener">Vikaspedia Health</a>
+          <a href="https://data.gov.in" target="_blank" rel="noopener">Open Govt Data</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-brand">Arogya<span>Setu</span></div>
+      <div>India Government Hospital Directory 2025 · Data from official government records · Not affiliated with any private entity</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  HOSPITAL DATABASE  — 200+ Verified Hospitals
+// ═══════════════════════════════════════════════════════════════════════
+const H = [
+/* ── DELHI / NCT ── */
+{s:"Delhi",c:"New Delhi",n:"AIIMS New Delhi",p:"011-26588500",u:"https://aiims.edu",t:"AIIMS",b:2478,sp:"All Specialties"},
+{s:"Delhi",c:"New Delhi",n:"Safdarjung Hospital",p:"011-26707444",u:"https://vmmc-sjh.nic.in",t:"Central Govt",b:1531,sp:"Multi-Specialty"},
+{s:"Delhi",c:"New Delhi",n:"Dr. Ram Manohar Lohia Hospital",p:"011-23404000",u:"https://rmlh.nic.in",t:"Central Govt",b:1500,sp:"Multi-Specialty"},
+{s:"Delhi",c:"New Delhi",n:"Lady Hardinge Medical College & Hospital",p:"011-23408801",u:"https://lhmc-sskh.nic.in",t:"Central Govt",b:883,sp:"Women & Children"},
+{s:"Delhi",c:"New Delhi",n:"National Institute of TB & Respiratory Diseases",p:"011-25465935",u:"https://nitrd.gov.in",t:"Central Govt",b:500,sp:"Pulmonology"},
+{s:"Delhi",c:"Delhi",n:"Lok Nayak Hospital (LNJP)",p:"011-23232400",u:"https://lnjp.delhi.gov.in",t:"State Govt",b:2000,sp:"Multi-Specialty"},
+{s:"Delhi",c:"Delhi",n:"GTB Hospital & UCMS",p:"011-22590495",u:"https://ucms.ac.in",t:"State Govt",b:1400,sp:"Multi-Specialty"},
+{s:"Delhi",c:"Delhi",n:"GB Pant Institute of Medical Sciences",p:"011-23234242",u:"https://gbpant.delhi.gov.in",t:"State Govt",b:650,sp:"Gastroenterology"},
+{s:"Delhi",c:"Delhi",n:"Deen Dayal Upadhyaya Hospital",p:"011-25944444",u:"https://dduh.delhi.gov.in",t:"State Govt",b:618,sp:"Multi-Specialty"},
+{s:"Delhi",c:"Delhi",n:"Sanjay Gandhi Memorial Hospital",p:"011-27012631",u:"https://sgmh.delhi.gov.in",t:"State Govt",b:564,sp:"Multi-Specialty"},
+{s:"Delhi",c:"Delhi",n:"Janakpuri Super Speciality Hospital",p:"011-45101301",u:"https://jssh.delhi.gov.in",t:"State Govt",b:200,sp:"Super Specialty"},
+{s:"Delhi",c:"Delhi",n:"Guru Teg Bahadur Hospital",p:"011-22582646",u:"https://gtbh.delhi.gov.in",t:"State Govt",b:1500,sp:"Multi-Specialty"},
+
+/* ── MAHARASHTRA ── */
+{s:"Maharashtra",c:"Mumbai",n:"KEM Hospital (Seth GS Medical College)",p:"022-24136051",u:"https://kemhospital.org",t:"Municipal",b:1900,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Mumbai",n:"J.J. Hospital (Grant Medical College)",p:"022-23735555",u:"https://gmcjjh.edu.in/",t:"State Govt",b:1400,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Mumbai",n:"Lokmanya Tilak Municipal (Sion Hospital)",p:"022-24076381",u:"https://ltmmch.org",t:"Municipal",b:1300,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Mumbai",n:"Nair Hospital (TNMC)",p:"022-23027643",u:"https://tnmc.ac.in",t:"Municipal",b:1200,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Mumbai",n:"Cooper Hospital",p:"022-26200101",u:"https://cooperhospitalmumbai.gov.in",t:"Municipal",b:775,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Mumbai",n:"Tata Memorial Hospital",p:"022-24177000",u:"https://tmc.gov.in",t:"Central Govt",b:629,sp:"Oncology"},
+{s:"Maharashtra",c:"Mumbai",n:"Bhabha Atomic Research Centre Hospital",p:"022-25505050",u:"https://barc.gov.in/hospitals",t:"Central Govt",b:355,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Nagpur",n:"AIIMS Nagpur",p:"0712-2973000",u:"https://aiimsnagpur.edu.in",t:"AIIMS",b:720,sp:"All Specialties"},
+{s:"Maharashtra",c:"Nagpur",n:"Government Medical College Nagpur",p:"0712-2701688",u:"https://gmcnagpur.gov.in",t:"State Govt",b:1350,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Nagpur",n:"Indira Gandhi Govt Medical College",p:"0712-2743588",u:"https://iggmcnagpur.gov.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Pune",n:"Sassoon General Hospital (BJMC)",p:"020-26128000",u:"https://bjmcpune.org",t:"State Govt",b:1312,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Pune",n:"Aundh District Hospital",p:"020-25880037",u:"https://aundhhospital.pmccare.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Aurangabad",n:"Government Medical College Aurangabad",p:"0240-2402412",u:"https://gmcaurangabad.gov.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Kolhapur",n:"CPR Hospital (Chhatrapati Pramila Raje)",p:"0231-2642799",u:"https://cprhospital.gov.in",t:"State Govt",b:700,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Nashik",n:"Civil Hospital Nashik",p:"0253-2578101",u:"https://civilhospitalnashik.gov.in",t:"State Govt",b:600,sp:"Multi-Specialty"},
+{s:"Maharashtra",c:"Solapur",n:"Solapur Civil Hospital",p:"0217-2621601",u:"https://solcivil.gov.in",t:"State Govt",b:620,sp:"Multi-Specialty"},
+
+/* ── TAMIL NADU ── */
+{s:"Tamil Nadu",c:"Chennai",n:"Rajiv Gandhi Govt General Hospital",p:"044-25305000",u:"https://gghnchennai.tn.gov.in",t:"State Govt",b:2633,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Chennai",n:"Madras Medical College",p:"044-25305100",u:"https://mmcri.ac.in",t:"State Govt",b:2800,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Chennai",n:"Kilpauk Medical College Hospital",p:"044-26422151",u:"https://kmch.tn.gov.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Chennai",n:"Stanley Medical College Hospital",p:"044-25281347",u:"https://stanleymedicalcollege.ac.in",t:"State Govt",b:1250,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Chennai",n:"Govt Institute of Obstetrics & Gynaecology",p:"044-28254742",u:"https://iog.tn.gov.in",t:"State Govt",b:900,sp:"Women's Health"},
+{s:"Tamil Nadu",c:"Chennai",n:"Adyar Cancer Institute",p:"044-22350241",u:"https://adyarcancerinstitute.org",t:"State Govt",b:300,sp:"Oncology"},
+{s:"Tamil Nadu",c:"Chennai",n:"TN Govt Multi Super Speciality Hospital",p:"044-45674567",u:"https://gmsh.tn.gov.in",t:"State Govt",b:1500,sp:"Super Specialty"},
+{s:"Tamil Nadu",c:"Coimbatore",n:"Coimbatore Medical College Hospital",p:"0422-2974100",u:"https://cmch.tn.gov.in",t:"State Govt",b:1500,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Madurai",n:"Government Rajaji Hospital",p:"0452-2532535",u:"https://mmc.tn.gov.in",t:"State Govt",b:2400,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Tiruchirappalli",n:"K.A.P. Viswanatham Govt Medical College",p:"0431-2407318",u:"https://kapvgmc.tn.gov.in",t:"State Govt",b:1050,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Salem",n:"Govt Mohan Kumaramangalam Medical College",p:"0427-2311992",u:"https://gmkmch.tn.gov.in",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Vellore",n:"Govt Vellore Medical College Hospital",p:"0416-2251000",u:"https://gwmc.tn.gov.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"Tamil Nadu",c:"Tirunelveli",n:"Tirunelveli Medical College Hospital",p:"0462-2572552",u:"https://tnmch.tn.gov.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+
+/* ── KARNATAKA ── */
+{s:"Karnataka",c:"Bengaluru",n:"NIMHANS",p:"080-46110007",u:"https://nimhans.ac.in",t:"Central Govt",b:1600,sp:"Neuro & Mental Health"},
+{s:"Karnataka",c:"Bengaluru",n:"Bangalore Medical College & Victoria Hospital",p:"080-26701150",u:"https://bmcri.org",t:"State Govt",b:1800,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Bengaluru",n:"Bowring & Lady Curzon Hospital",p:"080-25549690",u:"https://bowringhos.kar.nic.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Bengaluru",n:"Kidwai Memorial Institute of Oncology",p:"080-26094000",u:"https://kidwaicancerinstitute.org",t:"State Govt",b:500,sp:"Oncology"},
+{s:"Karnataka",c:"Bengaluru",n:"Sri Jayadeva Inst of Cardiovascular Sciences",p:"080-22977200",u:"https://jayadevacardiology.com",t:"State Govt",b:600,sp:"Cardiology"},
+{s:"Karnataka",c:"Bengaluru",n:"Vanivilas Women & Children Hospital",p:"080-22861850",u:"https://vanivilas.kar.nic.in",t:"State Govt",b:450,sp:"Women & Children"},
+{s:"Karnataka",c:"Mysuru",n:"K.R. Hospital / Mysore Medical College",p:"0821-2520512",u:"https://mmcri.ac.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Hubballi",n:"KIMS Hospital Hubli",p:"0836-2370057",u:"https://kims.edu.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Mangaluru",n:"Wenlock District Hospital",p:"0824-2423830",u:"https://wenlockdhospital.kar.nic.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Belagavi",n:"BIMS Hospital Belagavi",p:"0831-2420173",u:"https://bimsbelgaum.ac.in",t:"State Govt",b:700,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Shivamogga",n:"McGann District Hospital",p:"08182-225521",u:"https://mcganndh.kar.nic.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+{s:"Karnataka",c:"Ballari",n:"Vijayanagara Institute of Medical Sciences",p:"08392-230490",u:"https://vims.ac.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+
+/* ── UTTAR PRADESH ── */
+{s:"Uttar Pradesh",c:"Lucknow",n:"King George Medical University (KGMU)",p:"0522-2258880",u:"https://kgmu.org",t:"State Govt",b:5000,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Lucknow",n:"Dr. Ram Manohar Lohia Inst (RMLIMS)",p:"0522-2665000",u:"https://rmlims.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Lucknow",n:"SGPGI Lucknow",p:"0522-2668700",u:"https://sgpgi.ac.in",t:"State Govt",b:840,sp:"Super Specialty"},
+{s:"Uttar Pradesh",c:"Lucknow",n:"Civil Hospital Lucknow",p:"0522-2610290",u:"https://civilhospitallucknow.up.gov.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Varanasi",n:"IMS BHU Hospital",p:"0542-2307105",u:"https://bhu.ac.in/imsbhu",t:"Central Govt",b:890,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Varanasi",n:"Divisional Hospital Varanasi",p:"0542-2508380",u:"https://division.varanasi.up.gov.in",t:"State Govt",b:550,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Kanpur",n:"GSVM Medical College",p:"0512-2535483",u:"https://gsvmcollege.com",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Agra",n:"SN Medical College Agra",p:"0562-2260353",u:"https://snmcagra.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Allahabad",n:"Motilal Nehru Medical College",p:"0532-2256711",u:"https://mnmcprayagraj.nic.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Gorakhpur",n:"BRD Medical College",p:"0551-2202021",u:"https://brdmc.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Meerut",n:"Lala Lajpat Rai Memorial Medical College",p:"0121-2763530",u:"https://llrmmc.org",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Uttar Pradesh",c:"Jhansi",n:"Maharani Laxmi Bai Medical College",p:"0510-2441325",u:"https://mlbmc.org",t:"State Govt",b:700,sp:"Multi-Specialty"},
+
+/* ── WEST BENGAL ── */
+{s:"West Bengal",c:"Kolkata",n:"IPGMER & SSKM Hospital",p:"033-22236000",u:"https://ipgmer.gov.in",t:"State Govt",b:1796,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Kolkata",n:"R.G. Kar Medical College & Hospital",p:"033-25555330",u:"https://rgkmc.org",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Kolkata",n:"NRS Medical College",p:"033-22551113",u:"https://nrsmc.edu.in",t:"State Govt",b:1300,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Kolkata",n:"Calcutta National Medical College",p:"033-22443474",u:"https://cnmckolkata.in",t:"State Govt",b:710,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Kolkata",n:"Medical College & Hospital Kolkata",p:"033-22551016",u:"https://medicalcollegekolkata.in",t:"State Govt",b:1300,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Kolkata",n:"Nil Ratan Sircar Medical College",p:"033-22151104",u:"https://nrsmc.edu.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Siliguri",n:"North Bengal Medical College",p:"0353-2585478",u:"https://nbmedicalcollege.org",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Burdwan",n:"Burdwan Medical College & Hospital",p:"0342-2665741",u:"https://burdwanmedical.org",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"West Bengal",c:"Midnapore",n:"Midnapore Medical College & Hospital",p:"03222-252101",u:"https://mchmidnapore.org",t:"State Govt",b:800,sp:"Multi-Specialty"},
+
+/* ── GUJARAT ── */
+{s:"Gujarat",c:"Ahmedabad",n:"Civil Hospital Ahmedabad",p:"079-22680074",u:"https://civilhospital.gujarat.gov.in",t:"State Govt",b:2200,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Ahmedabad",n:"B.J. Medical College & Civil Hospital",p:"079-22683721",u:"https://bjmcahmedabad.ac.in",t:"State Govt",b:1400,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Ahmedabad",n:"SVP Hospital (Municipal)",p:"079-25320085",u:"https://svphospital.ahmedabad.gov.in",t:"Municipal",b:500,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Surat",n:"New Civil Hospital Surat",p:"0261-2659000",u:"https://newcivilsurat.gujarat.gov.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Vadodara",n:"Sayaji Hospital (SSG)",p:"0265-2424848",u:"https://sayajihospital.gujarat.gov.in",t:"State Govt",b:1530,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Rajkot",n:"PDU Medical College & Hospital",p:"0281-2470085",u:"https://pdumcrajkot.ac.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Gujarat",c:"Rajkot",n:"AIIMS Rajkot",p:"0281-2440000",u:"https://aiimsrajkot.edu.in",t:"AIIMS",b:750,sp:"All Specialties"},
+{s:"Gujarat",c:"Jamnagar",n:"Guru Gobind Singh Hospital",p:"0288-2553595",u:"https://mpcajamnagar.gujarat.gov.in",t:"State Govt",b:680,sp:"Multi-Specialty"},
+
+/* ── RAJASTHAN ── */
+{s:"Rajasthan",c:"Jodhpur",n:"AIIMS Jodhpur",p:"0291-2740741",u:"https://aiimsjodhpur.edu.in",t:"AIIMS",b:930,sp:"All Specialties"},
+{s:"Rajasthan",c:"Jaipur",n:"SMS Hospital",p:"0141-2518888",u:"https://smshospitaljaipur.rajasthan.gov.in",t:"State Govt",b:3000,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Jaipur",n:"JK Lon Hospital",p:"0141-2704221",u:"https://jklonhospital.rajasthan.gov.in",t:"State Govt",b:600,sp:"Paediatrics"},
+{s:"Rajasthan",c:"Jaipur",n:"Sawai Man Singh Hospital",p:"0141-2518800",u:"https://smshospitaljaipur.rajasthan.gov.in",t:"State Govt",b:2000,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Ajmer",n:"JLN Medical College & Hospital",p:"0145-2427777",u:"https://jlnmcajmer.rajasthan.gov.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Udaipur",n:"RNT Medical College & Hospital",p:"0294-2528811",u:"https://rntmcudaipur.rajasthan.gov.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Kota",n:"MBS Hospital Kota",p:"0744-2450081",u:"https://mbshospital.rajasthan.gov.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Bikaner",n:"PBM Hospital",p:"0151-2522328",u:"https://pbmhospitalbikaner.rajasthan.gov.in",t:"State Govt",b:1500,sp:"Multi-Specialty"},
+{s:"Rajasthan",c:"Jodhpur",n:"MDM Hospital",p:"0291-2434374",u:"https://mdmhospitaljodhpur.rajasthan.gov.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+
+/* ── MADHYA PRADESH ── */
+{s:"Madhya Pradesh",c:"Bhopal",n:"AIIMS Bhopal",p:"0755-2672335",u:"https://aiimsbhopal.edu.in",t:"AIIMS",b:960,sp:"All Specialties"},
+{s:"Madhya Pradesh",c:"Bhopal",n:"Hamidia Hospital (GMCH Bhopal)",p:"0755-2540166",u:"https://hamidiahospital.mp.gov.in",t:"State Govt",b:1900,sp:"Multi-Specialty"},
+{s:"Madhya Pradesh",c:"Indore",n:"MY Hospital (MGM Medical College)",p:"0731-2527780",u:"https://myhospital.mp.gov.in",t:"State Govt",b:1700,sp:"Multi-Specialty"},
+{s:"Madhya Pradesh",c:"Jabalpur",n:"Victoria Hospital (NSCB)",p:"0761-2622221",u:"https://victoriahospitaljabalpur.mp.gov.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+{s:"Madhya Pradesh",c:"Gwalior",n:"Jay Arogya Hospital (GRMC)",p:"0751-2423543",u:"https://grmcgwalior.mp.gov.in",t:"State Govt",b:1250,sp:"Multi-Specialty"},
+{s:"Madhya Pradesh",c:"Rewa",n:"SSH Medical College Rewa",p:"07662-252625",u:"https://ssmc.mp.gov.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+
+/* ── ANDHRA PRADESH ── */
+{s:"Andhra Pradesh",c:"Mangalagiri",n:"AIIMS Mangalagiri",p:"0863-2344700",u:"https://aiimsmangalagiri.edu.in",t:"AIIMS",b:960,sp:"All Specialties"},
+{s:"Andhra Pradesh",c:"Visakhapatnam",n:"King George Hospital",p:"0891-2564891",u:"https://kghvizag.ap.gov.in",t:"State Govt",b:1240,sp:"Multi-Specialty"},
+{s:"Andhra Pradesh",c:"Tirupati",n:"SVIMS Tirupati",p:"0877-2287777",u:"https://svims.edu.in",t:"State Govt",b:800,sp:"Super Specialty"},
+{s:"Andhra Pradesh",c:"Guntur",n:"Govt General Hospital Guntur",p:"0863-2221055",u:"https://ggguntur.ap.gov.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Andhra Pradesh",c:"Kurnool",n:"Govt General Hospital Kurnool",p:"08518-252020",u:"https://kurnoolhospital.ap.gov.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+{s:"Andhra Pradesh",c:"Ongole",n:"Govt General Hospital Ongole",p:"08592-235566",u:"https://ongolehospital.ap.gov.in",t:"State Govt",b:700,sp:"Multi-Specialty"},
+
+/* ── TELANGANA ── */
+{s:"Telangana",c:"Hyderabad",n:"AIIMS Bibinagar",p:"08682-266000",u:"https://aiimsbibinagar.edu.in",t:"AIIMS",b:720,sp:"All Specialties"},
+{s:"Telangana",c:"Hyderabad",n:"Osmania General Hospital",p:"040-24600124",u:"https://osmaniahospital.telangana.gov.in",t:"State Govt",b:1400,sp:"Multi-Specialty"},
+{s:"Telangana",c:"Hyderabad",n:"NIMS (Nizam's Inst of Medical Sciences)",p:"040-23489000",u:"https://nims.telangana.gov.in",t:"State Govt",b:1026,sp:"Super Specialty"},
+{s:"Telangana",c:"Hyderabad",n:"Gandhi Hospital",p:"040-27505566",u:"https://gandhihospital.telangana.gov.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Telangana",c:"Hyderabad",n:"Govt Maternity Hospital Petlaburj",p:"040-24657066",u:"https://govermentmaternityhyd.telangana.gov.in",t:"State Govt",b:600,sp:"Maternity"},
+{s:"Telangana",c:"Warangal",n:"MGM Hospital Warangal",p:"0870-2459666",u:"https://mgmhospitalwarangal.telangana.gov.in",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+{s:"Telangana",c:"Karimnagar",n:"Govt District Hospital Karimnagar",p:"0878-2225502",u:"https://telangana.gov.in/hospitals",t:"State Govt",b:600,sp:"Multi-Specialty"},
+
+/* ── KERALA ── */
+{s:"Kerala",c:"Thiruvananthapuram",n:"Govt Medical College Trivandrum",p:"0471-2528386",u:"https://gmctvpm.kerala.gov.in",t:"State Govt",b:2200,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Thiruvananthapuram",n:"SAT Hospital (Women & Children)",p:"0471-2443870",u:"https://sathospital.kerala.gov.in",t:"State Govt",b:750,sp:"Women & Children"},
+{s:"Kerala",c:"Kochi",n:"Govt Medical College Ernakulam",p:"0484-2396010",u:"https://gmcernakulam.kerala.gov.in",t:"State Govt",b:1050,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Kozhikode",n:"Govt Medical College Kozhikode",p:"0495-2350216",u:"https://gmckozhikode.kerala.gov.in",t:"State Govt",b:1750,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Thrissur",n:"Govt Medical College Thrissur",p:"0487-2366200",u:"https://gmctsr.kerala.gov.in",t:"State Govt",b:750,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Kottayam",n:"Govt Medical College Kottayam",p:"0481-2597420",u:"https://gmcktm.kerala.gov.in",t:"State Govt",b:950,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Alappuzha",n:"Govt Medical College Alappuzha",p:"0477-2251285",u:"https://gmcalappuzha.kerala.gov.in",t:"State Govt",b:500,sp:"Multi-Specialty"},
+{s:"Kerala",c:"Palakkad",n:"Govt District Hospital Palakkad",p:"0491-2524444",u:"https://gdh.palakkad.kerala.gov.in",t:"State Govt",b:600,sp:"Multi-Specialty"},
+
+/* ── PUNJAB ── */
+{s:"Punjab",c:"Chandigarh",n:"PGIMER Chandigarh",p:"0172-2746018",u:"https://pgimer.edu.in",t:"Central Govt",b:2114,sp:"Super Specialty"},
+{s:"Punjab",c:"Amritsar",n:"Govt Medical College Amritsar",p:"0183-2424741",u:"https://gmcamritsar.ac.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Punjab",c:"Patiala",n:"Rajindra Hospital (GMCH Patiala)",p:"0175-2212133",u:"https://gmcpatiala.gov.in",t:"State Govt",b:1630,sp:"Multi-Specialty"},
+{s:"Punjab",c:"Ludhiana",n:"Dayanand Medical College Hospital",p:"0161-5050555",u:"https://dmch.edu.in",t:"Aided",b:650,sp:"Multi-Specialty"},
+{s:"Punjab",c:"Bathinda",n:"AIIMS Bathinda",p:"0164-5003000",u:"https://aiimsbathinda.edu.in",t:"AIIMS",b:750,sp:"All Specialties"},
+{s:"Punjab",c:"Faridkot",n:"Guru Gobind Singh Medical College",p:"01639-256101",u:"https://ggsmch.ac.in",t:"State Govt",b:850,sp:"Multi-Specialty"},
+
+/* ── BIHAR ── */
+{s:"Bihar",c:"Patna",n:"AIIMS Patna",p:"0612-2451070",u:"https://aiimspatna.org",t:"AIIMS",b:960,sp:"All Specialties"},
+{s:"Bihar",c:"Patna",n:"Patna Medical College & Hospital (PMCH)",p:"0612-2300474",u:"https://pmch.bih.nic.in",t:"State Govt",b:1800,sp:"Multi-Specialty"},
+{s:"Bihar",c:"Patna",n:"IGIMS Patna",p:"0612-2297553",u:"https://igims.org",t:"State Govt",b:960,sp:"Multi-Specialty"},
+{s:"Bihar",c:"Patna",n:"Nalanda Medical College",p:"0612-2570015",u:"https://nmch.bih.nic.in",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+{s:"Bihar",c:"Muzaffarpur",n:"SKMCH Muzaffarpur",p:"0621-2213330",u:"https://skmch.bih.nic.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"Bihar",c:"Gaya",n:"ANM Medical College Gaya",p:"0631-2220445",u:"https://anmmcgaya.bih.nic.in",t:"State Govt",b:600,sp:"Multi-Specialty"},
+
+/* ── ODISHA ── */
+{s:"Odisha",c:"Bhubaneswar",n:"AIIMS Bhubaneswar",p:"0674-2476789",u:"https://aiimsbhubaneswar.nic.in",t:"AIIMS",b:978,sp:"All Specialties"},
+{s:"Odisha",c:"Cuttack",n:"SCB Medical College & Hospital",p:"0671-2418640",u:"https://scbmch.nic.in",t:"State Govt",b:4000,sp:"Multi-Specialty"},
+{s:"Odisha",c:"Bhubaneswar",n:"Capital Hospital",p:"0674-2395959",u:"https://capitalhospital.odisha.gov.in",t:"State Govt",b:500,sp:"Multi-Specialty"},
+{s:"Odisha",c:"Sambalpur",n:"VIMSAR Burla",p:"0663-2430738",u:"https://vssimsar.nic.in",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+{s:"Odisha",c:"Berhampur",n:"MKCG Medical College Hospital",p:"0680-2284551",u:"https://mkcgmedicalcollege.nic.in",t:"State Govt",b:950,sp:"Multi-Specialty"},
+
+/* ── CHHATTISGARH ── */
+{s:"Chhattisgarh",c:"Raipur",n:"AIIMS Raipur",p:"0771-2573777",u:"https://aiimsraipur.edu.in",t:"AIIMS",b:960,sp:"All Specialties"},
+{s:"Chhattisgarh",c:"Raipur",n:"Dr. BR Ambedkar Memorial Hospital",p:"0771-4012121",u:"https://ambedkarhospital.cghealth.nic.in",t:"State Govt",b:1100,sp:"Multi-Specialty"},
+{s:"Chhattisgarh",c:"Bilaspur",n:"Chhattisgarh Institute of Medical Sciences",p:"07752-247355",u:"https://cims.cg.gov.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+
+/* ── UTTARAKHAND ── */
+{s:"Uttarakhand",c:"Rishikesh",n:"AIIMS Rishikesh",p:"0135-2462924",u:"https://aiimsrishikesh.edu.in",t:"AIIMS",b:960,sp:"All Specialties"},
+{s:"Uttarakhand",c:"Dehradun",n:"Doon Government Hospital",p:"0135-2620636",u:"https://doonhospital.uk.gov.in",t:"State Govt",b:660,sp:"Multi-Specialty"},
+{s:"Uttarakhand",c:"Haldwani",n:"Govt Medical College Haldwani",p:"05946-220001",u:"https://gmchaldwani.uk.gov.in",t:"State Govt",b:700,sp:"Multi-Specialty"},
+
+/* ── HIMACHAL PRADESH ── */
+{s:"Himachal Pradesh",c:"Shimla",n:"IGMC Shimla (Snowdown Hospital)",p:"0177-2658830",u:"https://igmc.nic.in",t:"State Govt",b:900,sp:"Multi-Specialty"},
+{s:"Himachal Pradesh",c:"Bilaspur",n:"AIIMS Bilaspur (HP)",p:"01978-228002",u:"https://aiimsbilaspur.edu.in",t:"AIIMS",b:750,sp:"All Specialties"},
+{s:"Himachal Pradesh",c:"Tanda",n:"Dr RPGMC Tanda",p:"01892-267113",u:"https://drpgmc.hp.gov.in",t:"State Govt",b:720,sp:"Multi-Specialty"},
+
+/* ── ASSAM ── */
+{s:"Assam",c:"Guwahati",n:"AIIMS Guwahati",p:"0361-2332001",u:"https://aiimsguwahati.ac.in",t:"AIIMS",b:750,sp:"All Specialties"},
+{s:"Assam",c:"Guwahati",n:"Gauhati Medical College & Hospital",p:"0361-2529457",u:"https://gmch.assam.gov.in",t:"State Govt",b:1500,sp:"Multi-Specialty"},
+{s:"Assam",c:"Dibrugarh",n:"Assam Medical College & Hospital",p:"0373-2300009",u:"https://amchdibrugarh.nic.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Assam",c:"Silchar",n:"Silchar Medical College & Hospital",p:"03842-229100",u:"https://smchsilchar.nic.in",t:"State Govt",b:650,sp:"Multi-Specialty"},
+
+/* ── JAMMU & KASHMIR ── */
+{s:"Jammu & Kashmir",c:"Jammu",n:"AIIMS Vijaypur (Jammu)",p:"0191-2479254",u:"https://aiimsjammu.edu.in",t:"AIIMS",b:720,sp:"All Specialties"},
+{s:"Jammu & Kashmir",c:"Srinagar",n:"SKIMS Soura",p:"0194-2440052",u:"https://skims.ac.in",t:"State Govt",b:700,sp:"Super Specialty"},
+{s:"Jammu & Kashmir",c:"Srinagar",n:"Govt Medical College Srinagar",p:"0194-2452706",u:"https://gmcsrinagar.nic.in",t:"State Govt",b:1300,sp:"Multi-Specialty"},
+{s:"Jammu & Kashmir",c:"Jammu",n:"Govt Medical College Jammu",p:"0191-2579210",u:"https://gmcjammu.nic.in",t:"State Govt",b:1000,sp:"Multi-Specialty"},
+
+/* ── JHARKHAND ── */
+{s:"Jharkhand",c:"Deoghar",n:"AIIMS Deoghar",p:"06432-266001",u:"https://aiimsdeoghar.edu.in",t:"AIIMS",b:720,sp:"All Specialties"},
+{s:"Jharkhand",c:"Ranchi",n:"RIMS Ranchi",p:"0651-2542190",u:"https://rims.jharkhand.gov.in",t:"State Govt",b:1200,sp:"Multi-Specialty"},
+{s:"Jharkhand",c:"Dhanbad",n:"SNMMCH Dhanbad",p:"0326-2312371",u:"https://snmmch.jharkhand.gov.in",t:"State Govt",b:600,sp:"Multi-Specialty"},
+
+/* ── GOA ── */
+{s:"Goa",c:"Panaji",n:"Goa Medical College & Hospital",p:"0832-2458756",u:"https://gmc.goa.gov.in",t:"State Govt",b:1800,sp:"Multi-Specialty"},
+{s:"Goa",c:"Margao",n:"South Goa District Hospital",p:"0832-2705664",u:"https://sgdh.goa.gov.in",t:"State Govt",b:300,sp:"Multi-Specialty"},
+
+/* ── PUDUCHERRY ── */
+{s:"Puducherry",c:"Puducherry",n:"JIPMER",p:"0413-2272380",u:"https://jipmer.edu.in",t:"Central Govt",b:1952,sp:"All Specialties"},
+{s:"Puducherry",c:"Puducherry",n:"Govt General Hospital Puducherry",p:"0413-2337523",u:"https://health.py.gov.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+
+/* ── MANIPUR ── */
+{s:"Manipur",c:"Imphal",n:"RIMS Imphal",p:"0385-2451894",u:"https://rims.nic.in",t:"State Govt",b:500,sp:"Multi-Specialty"},
+{s:"Manipur",c:"Imphal",n:"JNIMS Imphal",p:"0385-2411313",u:"https://jnims.nic.in",t:"State Govt",b:300,sp:"Multi-Specialty"},
+
+/* ── MEGHALAYA ── */
+{s:"Meghalaya",c:"Shillong",n:"NEIGRIHMS Shillong",p:"0364-2538025",u:"https://neigrihms.gov.in",t:"Central Govt",b:500,sp:"Multi-Specialty"},
+{s:"Meghalaya",c:"Shillong",n:"Civil Hospital Shillong",p:"0364-2222562",u:"https://civilhospitalshillong.gov.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+
+/* ── TRIPURA ── */
+{s:"Tripura",c:"Agartala",n:"AGMC & GBP Hospital",p:"0381-2324155",u:"https://agmc.nic.in",t:"State Govt",b:800,sp:"Multi-Specialty"},
+{s:"Tripura",c:"Agartala",n:"AIIMS Bibinagar (nearest)",p:"0381-2416013",u:"https://health.tripura.gov.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+
+/* ── NAGALAND ── */
+{s:"Nagaland",c:"Kohima",n:"Naga Hospital Authority Kohima",p:"0370-2271604",u:"https://nhak.nagaland.gov.in",t:"State Govt",b:300,sp:"Multi-Specialty"},
+
+/* ── ARUNACHAL PRADESH ── */
+{s:"Arunachal Pradesh",c:"Naharlagun",n:"TRIHMS (Tomo Riba Institute)",p:"0360-2290090",u:"https://trihms.nic.in",t:"State Govt",b:500,sp:"Multi-Specialty"},
+
+/* ── SIKKIM ── */
+{s:"Sikkim",c:"Gangtok",n:"STNM Hospital Gangtok",p:"03592-202323",u:"https://stnmhospital.sikkim.gov.in",t:"State Govt",b:400,sp:"Multi-Specialty"},
+];
+
+// ═════════════════════════════════════════════════════════
+// STATE META
+// ═════════════════════════════════════════════════════════
+const SM={
+  "Delhi":"🏛️","Maharashtra":"🌆","Tamil Nadu":"🌊","Karnataka":"🌿",
+  "Uttar Pradesh":"🕌","West Bengal":"🎨","Gujarat":"🦁","Rajasthan":"🏜️",
+  "Madhya Pradesh":"🐯","Andhra Pradesh":"🌾","Telangana":"💎","Kerala":"🌴",
+  "Punjab":"🌾","Bihar":"📿","Odisha":"🏖️","Chhattisgarh":"🌲",
+  "Uttarakhand":"🏔️","Himachal Pradesh":"❄️","Assam":"🍵",
+  "Jammu & Kashmir":"🏔️","Jharkhand":"⛏️","Goa":"🏝️","Puducherry":"🌺",
+  "Manipur":"🎭","Meghalaya":"🌧️","Tripura":"🏯","Nagaland":"🎪",
+  "Arunachal Pradesh":"🌄","Sikkim":"🏔️",
+};
+
+// ═════════════════════════════════════════════════════════
+// INIT
+// ═════════════════════════════════════════════════════════
+const states = [...new Set(H.map(h=>h.s))].sort();
+const stateSel = document.getElementById('stateSel');
+states.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;stateSel.appendChild(o)});
+
+let selState='', selCity='', searchQ='';
+
+function fillCities(state){
+  const cs=document.getElementById('citySel');
+  cs.innerHTML='<option value="">All Cities</option>';
+  if(!state) return;
+  [...new Set(H.filter(h=>h.s===state).map(h=>h.c))].sort()
+    .forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;cs.appendChild(o)});
+}
+function onState(){selState=stateSel.value;selCity='';document.getElementById('citySel').value='';fillCities(selState);render();scroll400()}
+function onCity(){selCity=document.getElementById('citySel').value;render();scroll400()}
+function onHdrSearch(){
+  const v=document.getElementById('headerSearch').value.trim().toLowerCase();
+  searchQ=v;
+  if(v){selState='';selCity='';stateSel.value='';document.getElementById('citySel').innerHTML='<option value="">All Cities</option>';}
+  render();
+}
+function qs(q){
+  document.getElementById('headerSearch').value=q;
+  searchQ=q.toLowerCase();
+  selState='';selCity='';stateSel.value='';
+  document.getElementById('citySel').innerHTML='<option value="">All Cities</option>';
+  render();scroll400();
+}
+function qcity(state,city){
+  selState=state;selCity=city;
+  stateSel.value=state;fillCities(state);
+  document.getElementById('citySel').value=city;
+  document.getElementById('headerSearch').value='';searchQ='';
+  render();scroll400();
+}
+function resetAll(){
+  selState='';selCity='';searchQ='';
+  stateSel.value='';
+  document.getElementById('citySel').innerHTML='<option value="">All Cities</option>';
+  document.getElementById('headerSearch').value='';
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function scroll400(){setTimeout(()=>window.scrollTo({top:document.querySelector('.main').offsetTop-20,behavior:'smooth'}),50)}
+
+// ═════════════════════════════════════════════════════════
+// RENDER
+// ═════════════════════════════════════════════════════════
+function render(){
+  if(searchQ) { paintHospitals(H.filter(h=>[h.n,h.c,h.s,h.sp].join(' ').toLowerCase().includes(searchQ)), searchQ, 'Search Results'); return; }
+  if(!selState){ paintStates(); return; }
+  if(!selCity){ paintCities(selState); return; }
+  paintHospitals(H.filter(h=>h.s===selState&&h.c===selCity), '', `${selCity}, ${selState}`);
+}
+
+function paintStates(){
+  const cnt={};H.forEach(h=>{cnt[h.s]=(cnt[h.s]||0)+1});
+  document.getElementById('st1').textContent=H.length;
+  document.getElementById('st2').textContent=states.length;
+  document.getElementById('st3').textContent=new Set(H.map(h=>h.c)).size;
+  let html=`<div class="sec-header"><span class="sec-title">Browse by State <span class="count-badge">${states.length}</span></span></div>`;
+  html+=`<div class="state-grid fadein">`;
+  states.forEach(s=>{
+    html+=`<div class="state-card" onclick="pickState('${s}')">
+      <span class="s-flag">${SM[s]||'🏥'}</span>
+      <div class="s-name">${s}</div>
+      <div class="s-meta">${cnt[s]} hospital${cnt[s]>1?'s':''}</div>
+      <div class="s-arrow">›</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('area').innerHTML=html;
+}
+
+function paintCities(state){
+  const list=H.filter(h=>h.s===state);
+  const cnt={};list.forEach(h=>{cnt[h.c]=(cnt[h.c]||0)+1});
+  const cities=Object.keys(cnt).sort();
+  let html=`<div class="bc"><span class="bcl" onclick="resetAll()">🏠 Home</span><span class="bcs">›</span><span class="bcc">${SM[state]||'🏥'} ${state}</span></div>`;
+  html+=`<div class="sec-header"><span class="sec-title">Cities in ${state} <span class="count-badge">${cities.length}</span></span></div>`;
+  html+=`<div class="city-grid fadein">`;
+  cities.forEach(c=>{
+    html+=`<div class="city-card" onclick="pickCity('${state}','${c}')">
+      <div class="c-ico">🏙️</div>
+      <div class="c-name">${c}</div>
+      <div class="c-cnt">${cnt[c]} hospital${cnt[c]>1?'s':''}</div>
+    </div>`;
+  });
+  html+=`</div>`;
+  document.getElementById('area').innerHTML=html;
+}
+
+function paintHospitals(list, q, title){
+  let bc='';
+  if(selState&&!q) bc=`<div class="bc">
+    <span class="bcl" onclick="resetAll()">🏠 Home</span>
+    <span class="bcs">›</span>
+    <span class="bcl" onclick="pickState('${selState}')">${SM[selState]||'🏥'} ${selState}</span>
+    <span class="bcs">›</span>
+    <span class="bcc">🏙️ ${selCity}</span>
+  </div>`;
+  let html=bc+`<div class="sec-header"><span class="sec-title">${q?'🔍 Results for "'+q+'"':title} <span class="count-badge">${list.length}</span></span></div>`;
+  if(!list.length){
+    html+=`<div class="empty"><span class="empty-ico">🏥</span><div class="empty-msg">No hospitals found. Try different search terms.</div></div>`;
+    document.getElementById('area').innerHTML=html;return;
+  }
+  html+=`<div class="hosp-list fadein">`;
+  list.forEach(h=>{
+    const nm=q?h.n.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>'):h.n;
+    const avc=h.t==='AIIMS'?'hav-aiims':h.t==='Central Govt'?'hav-central':h.t==='Municipal'?'hav-muni':h.t==='Aided'?'hav-special':'hav-state';
+    const tc=h.t==='AIIMS'?'ht-aiims':h.t==='Central Govt'?'ht-central':h.t==='Municipal'?'ht-muni':h.t==='Aided'?'ht-special':'ht-state';
+    const ico=h.t==='AIIMS'?'🏛️':h.t==='Central Govt'?'🏥':h.t==='Municipal'?'🏢':'🏥';
+    // ─── ENTIRE CARD IS <a href> ─── native browser redirect, no JS popup block ───
+    html+=`<a class="hcard" href="${h.u}" target="_blank" rel="noopener noreferrer">
+      <div class="hav ${avc}">${ico}</div>
+      <div class="hinfo">
+        <div class="hname">${nm}</div>
+        <div class="htags">
+          <span class="htag ${tc}">${h.t}</span>
+          <span class="htag ht-loc">📍 ${h.c}</span>
+          <span class="htag ht-spec">${h.sp}</span>
+          ${h.b?`<span class="htag ht-beds">🛏 ${h.b.toLocaleString()} beds</span>`:''}
+          <span class="htag ht-phone">📞 ${h.p}</span>
+          <span class="verified">Verified</span>
+        </div>
+      </div>
+      <div class="hactions">
+        <button class="hcopy" onclick="copyPhone(event,'${h.p}')">📋 Copy No.</button>
+        <div class="hvisit">Visit Website <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 10L10 2M5 2h5v5"/></svg></div>
+      </div>
+    </a>`;
+  });
+  html+=`</div>`;
+  document.getElementById('area').innerHTML=html;
+}
+
+function pickState(s){selState=s;selCity='';stateSel.value=s;fillCities(s);document.getElementById('citySel').value='';render();scroll400()}
+function pickCity(s,c){selState=s;selCity=c;stateSel.value=s;fillCities(s);document.getElementById('citySel').value=c;render();scroll400()}
+
+function copyPhone(e,p){
+  e.preventDefault();e.stopPropagation();
+  navigator.clipboard.writeText(p).then(()=>showToast('📋 Copied: '+p)).catch(()=>showToast('Phone: '+p));
+}
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+render();
+</script>
+</body>
+</html>

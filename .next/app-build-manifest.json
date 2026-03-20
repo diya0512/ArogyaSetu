@@ -1,0 +1,79 @@
+{
+  "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/app/_not-found/page-aa1aa6bfe3edc8c7.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/css/e77774906e70c4d7.css",
+      "static/chunks/bb7cf919-99984a9a0183d6e8.js",
+      "static/chunks/c656bcdb-67d51ee52a5281e9.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/175-2fbe61b71877529e.js",
+      "static/chunks/app/layout-e5f24eaf5c9f134c.js"
+    ],
+    "/appointments/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/bb7cf919-99984a9a0183d6e8.js",
+      "static/chunks/c656bcdb-67d51ee52a5281e9.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/175-2fbe61b71877529e.js",
+      "static/chunks/app/appointments/page-45b41f14de7a36f7.js"
+    ],
+    "/dashboard/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/850-501e85e52a66af41.js",
+      "static/chunks/app/dashboard/page-043bf04845a2da93.js"
+    ],
+    "/disease-tracker/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/850-501e85e52a66af41.js",
+      "static/chunks/253-55f2fa63c3b9c77a.js",
+      "static/chunks/app/disease-tracker/page-cc468b009c07dedb.js"
+    ],
+    "/auth/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/bb7cf919-99984a9a0183d6e8.js",
+      "static/chunks/c656bcdb-67d51ee52a5281e9.js",
+      "static/chunks/175-2fbe61b71877529e.js",
+      "static/chunks/app/auth/page-e07ff8f4a085bae7.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/app/page-eda4765e47492f48.js"
+    ],
+    "/hospitals/page": [
+      "static/chunks/webpack-168f59da2f533ad5.js",
+      "static/chunks/1dd3208c-888f157e3c3d07df.js",
+      "static/chunks/286-d827760b45bb0842.js",
+      "static/chunks/main-app-cf58a1f849456a14.js",
+      "static/chunks/469-0979dbd47940f755.js",
+      "static/chunks/app/hospitals/page-0f1b565cae312231.js"
+    ]
+  }
+}
