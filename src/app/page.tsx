@@ -1,213 +1,293 @@
 import Link from "next/link";
 
 const liveAlerts = [
-  { disease: "Dengue", state: "Maharashtra", cases: "12,400", risk: "HIGH", riskColor: "#dc2626", bg: "#fef2f2", border: "#fecaca" },
-  { disease: "Influenza H3N2", state: "Delhi NCR", cases: "3,800", risk: "MEDIUM", riskColor: "#d97706", bg: "#fffbeb", border: "#fde68a" },
-  { disease: "Cholera", state: "Odisha", cases: "142", risk: "LOW", riskColor: "#15803d", bg: "#f0fdf4", border: "#bbf7d0" },
+  { disease: "Dengue", state: "MH", stateFull: "Maharashtra", cases: "12,400", risk: "High", riskColor: "#991b1b", riskBg: "#fef2f2", dot: "#dc2626" },
+  { disease: "Influenza H3N2", state: "DL", stateFull: "Delhi NCR", cases: "3,800", risk: "Medium", riskColor: "#92400e", riskBg: "#fffbeb", dot: "#f59e0b" },
+  { disease: "Cholera", state: "OD", stateFull: "Odisha", cases: "142", risk: "Low", riskColor: "#14532d", riskBg: "#f0fdf4", dot: "#22c55e" },
 ];
 
 const stats = [
-  { value: "25,778", label: "Government Hospitals" },
-  { value: "13.2L+", label: "Doctors Registered" },
-  { value: "4.8M+", label: "Citizens Served Daily" },
-  { value: "36", label: "States & UTs Covered" },
+  { value: "25,778", label: "Govt. Hospitals" },
+  { value: "13.2L+", label: "Registered Doctors" },
+  { value: "4.8M+", label: "Citizens Daily" },
+  { value: "36", label: "States & UTs" },
 ];
 
-const features = [
-  { title: "Disease Tracker", desc: "Real-time disease surveillance across all states. Monitor outbreaks, get risk alerts, and check symptoms.", href: "/disease-tracker", color: "#1d4ed8" },
-  { title: "Hospital Directory", desc: "25,000+ government hospitals with beds, specialities, and real-time availability.", href: "/hospitals", color: "#0369a1" },
-  { title: "Book Appointment", desc: "Zero-queue digital appointment booking at any government hospital. Available 24×7 for all citizens.", href: "/appointments", color: "#0f766e" },
-  { title: "Health Dashboard", desc: "Personal health records, vaccination schedule, prescription history, and family health tracking.", href: "/dashboard", color: "#7c3aed" },
-];
-
-const schemes = [
-  { name: "Ayushman Bharat PM-JAY", desc: "₹5 lakh health cover for 50 crore citizens", color: "#1d4ed8" },
-  { name: "National Health Mission", desc: "Universal access to healthcare across rural India", color: "#0f766e" },
-  { name: "PMJAY Sehat", desc: "Extension to J&K residents", color: "#7c3aed" },
-  { name: "ESI Scheme", desc: "Social security for organized sector workers", color: "#d97706" },
+const services = [
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    ),
+    title: "Disease Tracker",
+    desc: "Real-time surveillance across all states. Monitor outbreaks and get risk alerts.",
+    href: "/disease-tracker",
+    tag: "Live data",
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    ),
+    title: "Hospital Directory",
+    desc: "25,000+ government hospitals with beds, specialities, and real-time availability.",
+    href: "/hospitals",
+    tag: "25K+ hospitals",
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+    ),
+    title: "Book Appointment",
+    desc: "Zero-queue digital booking at any government hospital, available 24×7.",
+    href: "/appointments",
+    tag: "Free service",
+  },
+  {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    ),
+    title: "Health Dashboard",
+    desc: "Personal health records, vaccination schedule, and family health tracking.",
+    href: "/dashboard",
+    tag: "Personalised",
+  },
 ];
 
 const steps = [
-  { num: "01", title: "Find Hospital", desc: "Search our directory of 25,000+ government hospitals by state, city, or speciality." },
-  { num: "02", title: "Choose Doctor & Slot", desc: "View available doctors, check their experience, and pick a convenient time slot." },
-  { num: "03", title: "Confirm & Visit", desc: "Get instant confirmation. Show your booking ID at the hospital — zero waiting." },
+  { n: "1", title: "Find a hospital", desc: "Search 25,000+ government hospitals by state, city, or speciality." },
+  { n: "2", title: "Choose a slot", desc: "Pick a convenient date, time, and doctor from live availability." },
+  { n: "3", title: "Show up & get seen", desc: "Present your booking ID. No waiting, no paperwork." },
+];
+
+const schemes = [
+  { name: "Ayushman Bharat PM-JAY", desc: "₹5 lakh cover for 50 crore citizens", color: "#0f2d52" },
+  { name: "National Health Mission", desc: "Universal healthcare across rural India", color: "#0f766e" },
+  { name: "PMJAY Sehat", desc: "Extended coverage for J&K residents", color: "#6d28d9" },
+  { name: "ESI Scheme", desc: "Social security for organised sector workers", color: "#92400e" },
 ];
 
 export default function Home() {
   return (
-    <div style={{ background: "#f4f6fb" }}>
+    <div style={{ background: "#f7f8fa" }}>
 
-      {/* HERO */}
-      <section style={{ background: "#fff", borderBottom: "1px solid #dde3ed", padding: "56px 24px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+      {/* ── HERO ── */}
+      <section style={{ background: "#fff", borderBottom: "1px solid #e2e8f0", padding: "64px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 420px", gap: 64, alignItems: "center" }}>
 
           {/* Left */}
           <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 4, padding: "4px 12px", fontSize: 12, color: "#1d4ed8", marginBottom: 20, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em" }}>
-              Ministry of Health & Family Welfare — Government of India
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, color: "#0f2d52", background: "#e8eef7", border: "1px solid #c3d0e8", borderRadius: 3, padding: "3px 10px", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 24 }}>
+              Ministry of Health &amp; Family Welfare
             </div>
-            <h1 style={{ fontSize: 40, fontWeight: 800, color: "#1a1a2e", lineHeight: 1.15, marginBottom: 16, letterSpacing: "-0.5px" }}>
-              India's Unified<br />
-              <span style={{ color: "#1a3a6b" }}>Government Healthcare</span><br />
-              Portal
+
+            <h1 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 48, color: "#0f2d52", lineHeight: 1.1, marginBottom: 20, fontWeight: 400 }}>
+              Free healthcare<br />
+              <em style={{ fontStyle: "italic", color: "#c6902a" }}>for every</em><br />
+              Indian citizen.
             </h1>
-            <p style={{ fontSize: 16, color: "#4a5568", lineHeight: 1.75, marginBottom: 28, maxWidth: 460 }}>
-              Access 25,000+ government hospitals, disease tracking, zero-wait appointments, and your personal health records — all in one place.
+
+            <p style={{ fontSize: 16, color: "#6b7280", lineHeight: 1.75, marginBottom: 32, maxWidth: 440 }}>
+              Access 25,000+ government hospitals, real-time disease tracking, zero-wait appointments, and your personal health records — all in one place, at no cost.
             </p>
+
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <Link href="/hospitals" style={{ background: "#1a3a6b", color: "#fff", fontWeight: 700, padding: "11px 22px", borderRadius: 6, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8 }}>
-                Find Hospital
+              <Link href="/hospitals" className="btn-primary">
+                Find a hospital
               </Link>
-              <Link href="/appointments" style={{ background: "#fff", color: "#1a3a6b", fontWeight: 700, padding: "11px 22px", borderRadius: 6, fontSize: 14, textDecoration: "none", border: "1.5px solid #1a3a6b", display: "inline-flex", alignItems: "center", gap: 8 }}>
-                Book Appointment
+              <Link href="/appointments" className="btn-outline">
+                Book appointment
               </Link>
-              <Link href="/disease-tracker" style={{ background: "#fff", color: "#4a5568", fontWeight: 600, padding: "11px 22px", borderRadius: 6, fontSize: 14, textDecoration: "none", border: "1px solid #dde3ed", display: "inline-flex", alignItems: "center", gap: 8 }}>
-                Check Symptoms
+              <Link href="/disease-tracker" className="btn-ghost">
+                Disease tracker
               </Link>
+            </div>
+
+            {/* Trust strip */}
+            <div style={{ marginTop: 40, paddingTop: 28, borderTop: "1px solid #f1f5f9", display: "flex", gap: 32 }}>
+              {[{ v: "2.4L", l: "Active cases tracked" }, { v: "18.9L", l: "Recoveries logged" }, { v: "36", l: "States covered" }].map(s => (
+                <div key={s.l}>
+                  <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: "#0f2d52" }}>{s.v}</div>
+                  <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>{s.l}</div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Right — Live Alerts */}
-          <div style={{ background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, padding: 24, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 14, color: "#1a1a2e" }}>
-                <div style={{ width: 8, height: 8, background: "#22c55e", borderRadius: "50%" }} />
+          {/* Right — Live Alerts card */}
+          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
+            {/* Header */}
+            <div style={{ padding: "14px 20px", borderBottom: "1px solid #f1f5f9", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "#111827" }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#22c55e" }} className="pulse-dot" />
                 Live Disease Alerts
               </div>
-              <span style={{ fontSize: 11, color: "#94a3b8" }}>Updated now</span>
+              <span style={{ fontSize: 11, color: "#9ca3af", background: "#f7f8fa", border: "1px solid #f1f5f9", borderRadius: 3, padding: "2px 8px" }}>Updated now</span>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }}>
-              {liveAlerts.map(a => (
-                <div key={a.disease} style={{ background: a.bg, border: `1px solid ${a.border}`, borderRadius: 6, padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+
+            {/* Alert rows */}
+            {liveAlerts.map((a, i) => (
+              <div key={a.disease} style={{ padding: "14px 20px", borderBottom: i < liveAlerts.length - 1 ? "1px solid #f9fafb" : "none", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <div style={{ width: 6, height: 6, borderRadius: "50%", background: a.dot, flexShrink: 0 }} />
                   <div>
-                    <div style={{ fontWeight: 600, color: "#1a1a2e", fontSize: 14 }}>{a.disease}</div>
-                    <div style={{ fontSize: 12, color: "#718096", marginTop: 2 }}>📍 {a.state}</div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontWeight: 700, color: a.riskColor, fontSize: 18 }}>{a.cases}</div>
-                    <div style={{ fontSize: 11, color: a.riskColor, fontWeight: 600, marginTop: 2 }}>{a.risk} RISK</div>
+                    <div style={{ fontWeight: 600, fontSize: 14, color: "#111827" }}>{a.disease}</div>
+                    <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 1, display: "flex", alignItems: "center", gap: 5 }}>
+                      <span style={{ background: "#f0f4fa", color: "#374151", fontWeight: 700, fontSize: 10, padding: "1px 6px", borderRadius: 2 }}>{a.state}</span>
+                      {a.stateFull}
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", borderTop: "1px solid #f1f5f9", paddingTop: 14 }}>
-              {[{ val: "2.4L", lbl: "Active Cases" }, { val: "18.9L", lbl: "Recovered" }, { val: "36", lbl: "States" }].map((s, i) => (
-                <div key={s.lbl} style={{ textAlign: "center", borderRight: i < 2 ? "1px solid #f1f5f9" : "none" }}>
-                  <div style={{ fontWeight: 800, fontSize: 18, color: "#1a3a6b" }}>{s.val}</div>
-                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{s.lbl}</div>
+                <div style={{ textAlign: "right", flexShrink: 0 }}>
+                  <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 20, color: "#111827" }}>{a.cases}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: a.riskColor, background: a.riskBg, padding: "1px 7px", borderRadius: 2, display: "inline-block", marginTop: 2 }}>{a.risk} risk</div>
                 </div>
-              ))}
+              </div>
+            ))}
+
+            {/* CTA */}
+            <div style={{ padding: "12px 20px", background: "#f7f8fa", borderTop: "1px solid #f1f5f9" }}>
+              <Link href="/disease-tracker" style={{ fontSize: 13, fontWeight: 600, color: "#0f2d52", textDecoration: "none" }}>
+                View all states &amp; districts →
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section style={{ background: "#1a3a6b", padding: "28px 24px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24 }}>
+      {/* ── STATS BAND ── */}
+      <section style={{ background: "#0f2d52", padding: "24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
           {stats.map((s, i) => (
-            <div key={s.label} style={{ textAlign: "center", padding: "8px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.12)" : "none" }}>
-              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff" }}>{s.value}</div>
-              <div style={{ fontSize: 13, color: "#93b4dc", marginTop: 4 }}>{s.label}</div>
+            <div key={s.label} style={{ textAlign: "center", padding: "12px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.1)" : "none" }}>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: 28, color: "#fff", lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginTop: 5, letterSpacing: "0.02em" }}>{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section style={{ padding: "60px 24px", background: "#f4f6fb" }}>
+      {/* ── SERVICES ── */}
+      <section style={{ padding: "72px 24px", background: "#f7f8fa" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 36 }}>
-            <h2 style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", marginBottom: 8 }}>Our Services</h2>
-            <p style={{ color: "#718096", fontSize: 15, maxWidth: 480, margin: "0 auto" }}>A single platform for all government healthcare services — free and accessible to every Indian citizen.</p>
+          <div style={{ marginBottom: 40 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "#c6902a", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>What we offer</div>
+            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 34, color: "#0f2d52", fontWeight: 400, maxWidth: 400, lineHeight: 1.2 }}>One platform for all government healthcare</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16 }}>
-            {features.map(f => (
-              <Link key={f.title} href={f.href} style={{ textDecoration: "none" }}>
-                <div style={{ background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, padding: 24, height: "100%", transition: "all 0.15s", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.04)", borderTop: `3px solid ${f.color}` }}>
-                  <div style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 15, marginBottom: 10 }}>{f.title}</div>
-                  <div style={{ fontSize: 13, color: "#718096", lineHeight: 1.65, marginBottom: 16 }}>{f.desc}</div>
-                  <span style={{ color: f.color, fontSize: 13, fontWeight: 600 }}>Learn more →</span>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 1, background: "#e2e8f0", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
+            {services.map((s, i) => (
+              <Link key={s.title} href={s.href} style={{ textDecoration: "none", background: "#fff", padding: "32px", display: "block", transition: "background 0.15s" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "#fafbfc")}
+                onMouseLeave={e => (e.currentTarget.style.background = "#fff")}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
+                  <div style={{ width: 40, height: 40, background: "#f0f4fa", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", color: "#0f2d52" }}>
+                    {s.icon}
+                  </div>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: "#6b7280", background: "#f7f8fa", border: "1px solid #e2e8f0", borderRadius: 3, padding: "3px 8px", letterSpacing: "0.04em", textTransform: "uppercase" }}>{s.tag}</span>
                 </div>
+                <div style={{ fontWeight: 600, fontSize: 16, color: "#111827", marginBottom: 8 }}>{s.title}</div>
+                <div style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.65, marginBottom: 20 }}>{s.desc}</div>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "#0f2d52" }}>Explore →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section style={{ padding: "60px 24px", background: "#fff", borderTop: "1px solid #dde3ed", borderBottom: "1px solid #dde3ed" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
-            <h2 style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", marginBottom: 8 }}>Book in 3 Simple Steps</h2>
-            <p style={{ color: "#718096", fontSize: 15 }}>Getting government healthcare has never been this easy</p>
+      {/* ── HOW IT WORKS ── */}
+      <section style={{ padding: "72px 24px", background: "#fff", borderTop: "1px solid #e2e8f0", borderBottom: "1px solid #e2e8f0" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+          <div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: "#c6902a", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>How it works</div>
+            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 34, color: "#0f2d52", fontWeight: 400, lineHeight: 1.2, marginBottom: 16 }}>
+              Book a government hospital appointment in minutes
+            </h2>
+            <p style={{ color: "#6b7280", fontSize: 14, lineHeight: 1.75, marginBottom: 32 }}>
+              No middlemen, no queues, no costs. Direct access to government doctors across India.
+            </p>
+            <Link href="/appointments" className="btn-primary">
+              Book free appointment
+            </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 32 }}>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             {steps.map((s, i) => (
-              <div key={s.num} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 6, background: "#eff6ff", border: "1px solid #bfdbfe", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, color: "#1a3a6b", flexShrink: 0 }}>{s.num}</div>
-                <div>
-                  <div style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 15, marginBottom: 6 }}>{s.title}</div>
-                  <div style={{ fontSize: 13, color: "#718096", lineHeight: 1.65 }}>{s.desc}</div>
+              <div key={s.n} style={{ display: "flex", gap: 20, paddingBottom: i < steps.length - 1 ? 28 : 0, position: "relative" }}>
+                {/* step line */}
+                {i < steps.length - 1 && (
+                  <div style={{ position: "absolute", left: 16, top: 36, width: 1, height: "calc(100% - 8px)", background: "#e2e8f0" }} />
+                )}
+                <div style={{ width: 33, height: 33, borderRadius: "50%", background: "#0f2d52", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "'DM Serif Display', serif", fontSize: 15, color: "#fff", zIndex: 1 }}>
+                  {s.n}
+                </div>
+                <div style={{ paddingTop: 4 }}>
+                  <div style={{ fontWeight: 600, fontSize: 15, color: "#111827", marginBottom: 5 }}>{s.title}</div>
+                  <div style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.65 }}>{s.desc}</div>
                 </div>
               </div>
             ))}
           </div>
-          <div style={{ textAlign: "center", marginTop: 36 }}>
-            <Link href="/appointments" style={{ background: "#1a3a6b", color: "#fff", fontWeight: 700, padding: "13px 32px", borderRadius: 6, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8 }}>
-              Book Free Appointment
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* SCHEMES */}
-      <section style={{ padding: "60px 24px", background: "#f4f6fb" }}>
+      {/* ── SCHEMES ── */}
+      <section style={{ padding: "72px 24px", background: "#f7f8fa" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 32 }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 36, flexWrap: "wrap", gap: 16 }}>
             <div>
-              <h2 style={{ fontSize: 28, fontWeight: 800, color: "#1a1a2e", marginBottom: 6 }}>Government Health Schemes</h2>
-              <p style={{ color: "#718096", fontSize: 14 }}>Free healthcare benefits you are entitled to as an Indian citizen</p>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#c6902a", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>Entitlements</div>
+              <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 34, color: "#0f2d52", fontWeight: 400, lineHeight: 1.2 }}>Government health schemes</h2>
             </div>
-            <Link href="/dashboard" style={{ color: "#1a3a6b", fontSize: 13, fontWeight: 600, textDecoration: "none", border: "1px solid #c3d0e8", padding: "7px 16px", borderRadius: 6, background: "#fff" }}>View All →</Link>
+            <Link href="/dashboard" style={{ fontSize: 13, fontWeight: 600, color: "#0f2d52", textDecoration: "none", border: "1px solid #c3d0e8", padding: "7px 16px", borderRadius: 5, background: "#fff" }}>
+              View all schemes →
+            </Link>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
             {schemes.map(s => (
-              <div key={s.name} style={{ background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, padding: 20, borderLeft: `3px solid ${s.color}` }}>
-                <div style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 14, marginBottom: 6 }}>{s.name}</div>
-                <div style={{ fontSize: 13, color: "#718096", lineHeight: 1.5 }}>{s.desc}</div>
+              <div key={s.name} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 8, padding: "22px 20px", borderTop: `3px solid ${s.color}` }}>
+                <div style={{ fontWeight: 600, color: "#111827", fontSize: 14, marginBottom: 6, lineHeight: 1.35 }}>{s.name}</div>
+                <div style={{ fontSize: 12, color: "#9ca3af", lineHeight: 1.55 }}>{s.desc}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ background: "#1a3a6b", padding: "56px 24px" }}>
-        <div style={{ maxWidth: 560, margin: "0 auto", textAlign: "center" }}>
-          <h2 style={{ fontSize: 26, fontWeight: 800, color: "#fff", marginBottom: 10 }}>Ready to get started?</h2>
-          <p style={{ fontSize: 15, color: "#93b4dc", marginBottom: 28, lineHeight: 1.7 }}>
-            Join millions of citizens already using ArogyaSetu for free government healthcare access.
-          </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/appointments" style={{ background: "#fff", color: "#1a3a6b", fontWeight: 700, padding: "12px 28px", borderRadius: 6, fontSize: 14, textDecoration: "none" }}>
-              Book Free Appointment
+      {/* ── CTA ── */}
+      <section style={{ background: "#0f2d52", padding: "72px 24px" }}>
+        <div style={{ maxWidth: 700, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr auto", gap: 32, alignItems: "center" }}>
+          <div>
+            <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 32, color: "#fff", fontWeight: 400, marginBottom: 10, lineHeight: 1.2 }}>
+              Healthcare is your right.<br />
+              <em style={{ color: "#c6902a" }}>Use it.</em>
+            </h2>
+            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", lineHeight: 1.7 }}>
+              Crores of citizens already access free government healthcare through ArogyaSetu. Your entitlement is waiting.
+            </p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, flexShrink: 0 }}>
+            <Link href="/appointments" style={{ background: "#c6902a", color: "#fff", fontWeight: 700, padding: "12px 24px", borderRadius: 6, fontSize: 14, textDecoration: "none", textAlign: "center", whiteSpace: "nowrap" }}>
+              Book appointment
             </Link>
-            <Link href="/auth" style={{ background: "transparent", color: "#fff", fontWeight: 600, padding: "12px 28px", borderRadius: 6, fontSize: 14, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.35)" }}>
-              Create Account
+            <Link href="/auth" style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.8)", fontWeight: 500, padding: "12px 24px", borderRadius: 6, fontSize: 14, textDecoration: "none", textAlign: "center", border: "1px solid rgba(255,255,255,0.12)" }}>
+              Create account
             </Link>
           </div>
         </div>
       </section>
 
-      {/* EMERGENCY */}
-      <section style={{ background: "#7f1d1d", padding: "40px 24px" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-          <h3 style={{ fontWeight: 700, fontSize: 20, color: "#fff", marginBottom: 6 }}>Medical Emergency?</h3>
-          <p style={{ color: "#fca5a5", marginBottom: 20, fontSize: 14 }}>24×7 ambulance service across all 36 states and UTs.</p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="tel:108" style={{ background: "#fff", color: "#7f1d1d", fontWeight: 800, padding: "11px 28px", borderRadius: 6, fontSize: 15, textDecoration: "none" }}>108 — Ambulance</a>
-            <a href="tel:104" style={{ border: "1px solid rgba(255,255,255,0.3)", color: "#fff", fontWeight: 600, padding: "11px 20px", borderRadius: 6, fontSize: 14, textDecoration: "none" }}>Health Helpline: 104</a>
+      {/* ── EMERGENCY STRIP ── */}
+      <section style={{ background: "#7f1d1d", padding: "20px 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#fca5a5" }} className="pulse-dot" />
+            <span style={{ fontWeight: 600, fontSize: 14, color: "#fff" }}>Medical Emergency?</span>
+            <span style={{ fontSize: 13, color: "#fca5a5" }}>24×7 ambulance across all 36 states and UTs</span>
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <a href="tel:108" style={{ background: "#fff", color: "#7f1d1d", fontWeight: 800, padding: "8px 20px", borderRadius: 5, fontSize: 14, textDecoration: "none" }}>108 — Ambulance</a>
+            <a href="tel:104" style={{ border: "1px solid rgba(255,255,255,0.3)", color: "#fff", fontWeight: 600, padding: "8px 18px", borderRadius: 5, fontSize: 14, textDecoration: "none" }}>104 — Health</a>
           </div>
         </div>
       </section>
