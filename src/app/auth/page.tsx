@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "@/firebase";
 import {
@@ -44,11 +44,41 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // ── Initialize reCAPTCHA once on mount ──
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const initRecaptcha = () => {
+      if (!window.recaptchaVerifier) {
+        window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+          size: "invisible",
+          callback: () => {},
+          "expired-callback": () => {
+            window.recaptchaVerifier?.clear();
+            window.recaptchaVerifier = undefined;
+          },
+        });
+        window.recaptchaVerifier.render().catch(() => {
+          window.recaptchaVerifier = undefined;
+        });
+      }
+    };
+    initRecaptcha();
+    return () => {
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = undefined;
+      }
+    };
+  }, []);
+
   const startTimer = () => {
     setTimer(30); setCanResend(false);
     clearInterval(timerRef.current!);
     timerRef.current = setInterval(() => {
-      setTimer(t => { if (t <= 1) { clearInterval(timerRef.current!); setCanResend(true); return 0; } return t - 1; });
+      setTimer(t => {
+        if (t <= 1) { clearInterval(timerRef.current!); setCanResend(true); return 0; }
+        return t - 1;
+      });
     }, 1000);
   };
 
@@ -92,23 +122,38 @@ export default function AuthPage() {
     if (mode === "signup" && !name.trim()) { setError("Please enter your full name."); return; }
     setLoading(true);
     try {
+      // Reset verifier if needed
       if (!window.recaptchaVerifier) {
         window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-          size: "invisible", callback: () => {},
+          size: "invisible",
+          callback: () => {},
+          "expired-callback": () => {
+            window.recaptchaVerifier?.clear();
+            window.recaptchaVerifier = undefined;
+          },
         });
+        await window.recaptchaVerifier.render();
       }
-      const confirmation = await signInWithPhoneNumber(auth, `+91${phone}`, window.recaptchaVerifier);
+
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        `+91${phone}`,
+        window.recaptchaVerifier
+      );
       window.confirmationResult = confirmation;
       setOtp(["", "", "", "", "", ""]);
       setStep("otp");
       startTimer();
       setTimeout(() => otpRefs.current[0]?.focus(), 100);
     } catch (e: any) {
+      console.error("OTP Error:", e);
       const msg: Record<string, string> = {
         "auth/invalid-phone-number": "Invalid phone number. Please check and retry.",
         "auth/too-many-requests": "Too many attempts. Please wait before retrying.",
+        "auth/billing-not-enabled": "Phone auth requires billing to be enabled in Firebase.",
+        "auth/captcha-check-failed": "reCAPTCHA verification failed. Please try again.",
       };
-      setError(msg[e.code] || e.message || "Failed to send OTP.");
+      setError(msg[e.code] || e.message || "Failed to send OTP. Please try again.");
       window.recaptchaVerifier?.clear();
       window.recaptchaVerifier = undefined;
     }
@@ -137,11 +182,19 @@ export default function AuthPage() {
     setLoading(false);
   };
 
+  const handleResendOTP = async () => {
+    // Clear old verifier before resending
+    window.recaptchaVerifier?.clear();
+    window.recaptchaVerifier = undefined;
+    await handleSendOTP();
+  };
+
   const handleOtpChange = (idx: number, val: string) => {
     if (!/^\d?$/.test(val)) return;
     const next = [...otp]; next[idx] = val; setOtp(next); setError("");
     if (val && idx < 5) otpRefs.current[idx + 1]?.focus();
   };
+
   const handleOtpKey = (idx: number, e: React.KeyboardEvent) => {
     if (e.key === "Backspace" && !otp[idx] && idx > 0) otpRefs.current[idx - 1]?.focus();
   };
@@ -149,13 +202,13 @@ export default function AuthPage() {
   // ── SUCCESS ──
   if (step === "success") {
     return (
-      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f4f6fb" }}>
-        <div style={{ textAlign: "center", background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, padding: "48px 40px", maxWidth: 400, width: "100%", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" }}>
+      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f7f8fa" }}>
+        <div style={{ textAlign: "center", background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, padding: "48px 40px", maxWidth: 400, width: "100%" }}>
           <div style={{ width: 56, height: 56, background: "#f0fdf4", border: "2px solid #bbf7d0", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px", fontSize: 24, color: "#15803d" }}>✓</div>
-          <h2 style={{ fontSize: 20, fontWeight: 700, color: "#1a3a6b", marginBottom: 8 }}>
+          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: 22, color: "#0f2d52", marginBottom: 8 }}>
             {mode === "signup" ? "Account Created!" : "Welcome Back!"}
           </h2>
-          <p style={{ fontSize: 14, color: "#4a5568" }}>Redirecting to your dashboard...</p>
+          <p style={{ fontSize: 14, color: "#6b7280" }}>Redirecting to your dashboard...</p>
         </div>
       </div>
     );
@@ -164,17 +217,23 @@ export default function AuthPage() {
   // ── OTP SCREEN ──
   if (step === "otp") {
     return (
-      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f4f6fb", padding: "40px 16px" }}>
+      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f7f8fa", padding: "40px 16px" }}>
+        <div id="recaptcha-container" />
         <div style={{ width: "100%", maxWidth: 420 }}>
-          <div style={{ background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", overflow: "hidden" }}>
-            {/* Header */}
-            <div style={{ background: "#1a3a6b", padding: "24px 32px" }}>
-              <button onClick={() => { setStep("entry"); setError(""); window.recaptchaVerifier?.clear(); window.recaptchaVerifier = undefined; }}
-                style={{ background: "transparent", border: "none", color: "#93b4dc", cursor: "pointer", fontSize: 13, marginBottom: 12, padding: 0, display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
+            <div style={{ background: "#0f2d52", padding: "24px 32px" }}>
+              <button
+                onClick={() => {
+                  setStep("entry");
+                  setError("");
+                  window.recaptchaVerifier?.clear();
+                  window.recaptchaVerifier = undefined;
+                }}
+                style={{ background: "transparent", border: "none", color: "rgba(255,255,255,0.6)", cursor: "pointer", fontSize: 13, marginBottom: 12, padding: 0, display: "flex", alignItems: "center", gap: 6 }}>
                 ← Back
               </button>
-              <h2 style={{ color: "#fff", fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Verify Your Mobile</h2>
-              <p style={{ color: "#93b4dc", fontSize: 13 }}>
+              <h2 style={{ fontFamily: "'DM Serif Display', serif", color: "#fff", fontSize: 20, fontWeight: 400, marginBottom: 4 }}>Verify your mobile</h2>
+              <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13 }}>
                 OTP sent to <strong style={{ color: "#fff" }}>+91 {phone}</strong>
               </p>
             </div>
@@ -182,7 +241,8 @@ export default function AuthPage() {
             <div style={{ padding: "28px 32px" }}>
               <div style={{ display: "flex", gap: 10, justifyContent: "center", marginBottom: 20 }}>
                 {otp.map((digit, idx) => (
-                  <input key={idx} ref={el => { otpRefs.current[idx] = el; }}
+                  <input key={idx}
+                    ref={el => { otpRefs.current[idx] = el; }}
                     type="text" inputMode="numeric" maxLength={1} value={digit}
                     onChange={e => handleOtpChange(idx, e.target.value)}
                     onKeyDown={e => handleOtpKey(idx, e)}
@@ -192,9 +252,8 @@ export default function AuthPage() {
                     } : undefined}
                     style={{
                       width: 48, height: 54, textAlign: "center", fontSize: 22, fontWeight: 700,
-                      background: "#f4f6fb", border: `2px solid ${digit ? "#1a3a6b" : "#dde3ed"}`,
-                      borderRadius: 6, color: "#1a3a6b", outline: "none", caretColor: "#1a3a6b", padding: 0,
-                      boxSizing: "border-box"
+                      background: "#f7f8fa", border: `2px solid ${digit ? "#0f2d52" : "#e2e8f0"}`,
+                      borderRadius: 6, color: "#0f2d52", outline: "none", padding: 0, boxSizing: "border-box",
                     }} />
                 ))}
               </div>
@@ -205,19 +264,19 @@ export default function AuthPage() {
                 </div>
               )}
 
-              <div style={{ textAlign: "center", fontSize: 13, color: "#718096", marginBottom: 16 }}>
+              <div style={{ textAlign: "center", fontSize: 13, color: "#6b7280", marginBottom: 16 }}>
                 {canResend
-                  ? <button onClick={handleSendOTP} style={{ background: "transparent", border: "none", color: "#1a3a6b", cursor: "pointer", fontWeight: 700, fontSize: 13 }}>Resend OTP</button>
-                  : <>Resend in <strong style={{ color: "#1a3a6b" }}>00:{String(timer).padStart(2, "0")}</strong></>
+                  ? <button onClick={handleResendOTP} style={{ background: "transparent", border: "none", color: "#0f2d52", cursor: "pointer", fontWeight: 700, fontSize: 13, fontFamily: "inherit" }}>Resend OTP</button>
+                  : <>Resend in <strong style={{ color: "#0f2d52" }}>00:{String(timer).padStart(2, "0")}</strong></>
                 }
               </div>
 
               <button onClick={handleVerifyOTP} disabled={loading} className="btn-primary"
                 style={{ width: "100%", padding: "12px", justifyContent: "center", fontSize: 14, opacity: loading ? 0.7 : 1 }}>
-                {loading ? "Verifying..." : "Verify & Continue"}
+                {loading ? "Verifying..." : "Verify & continue"}
               </button>
 
-              <div style={{ marginTop: 14, padding: "10px 12px", background: "#f4f6fb", border: "1px solid #dde3ed", borderRadius: 6, fontSize: 12, color: "#718096", textAlign: "center" }}>
+              <div style={{ marginTop: 14, padding: "10px 12px", background: "#f7f8fa", border: "1px solid #e2e8f0", borderRadius: 6, fontSize: 12, color: "#9ca3af", textAlign: "center" }}>
                 OTP is valid for 10 minutes. Do not share it with anyone.
               </div>
             </div>
@@ -231,47 +290,47 @@ export default function AuthPage() {
   return (
     <>
       <div id="recaptcha-container" />
-      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f4f6fb", padding: "40px 16px" }}>
+      <div style={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f7f8fa", padding: "40px 16px" }}>
         <div style={{ width: "100%", maxWidth: 420 }}>
-          <div style={{ background: "#fff", border: "1px solid #dde3ed", borderRadius: 8, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", overflow: "hidden" }}>
+          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 10, overflow: "hidden" }}>
 
             {/* Header */}
-            <div style={{ background: "#1a3a6b", padding: "24px 32px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 4 }}>
-                <div style={{ width: 36, height: 36, background: "rgba(255,255,255,0.15)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ background: "#0f2d52", padding: "24px 32px", borderBottom: "3px solid #c6902a" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ width: 36, height: 36, background: "rgba(255,255,255,0.1)", borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
                   </svg>
                 </div>
                 <div>
-                  <h1 style={{ color: "#fff", fontSize: 18, fontWeight: 700, margin: 0 }}>
-                    {mode === "login" ? "Sign In to ArogyaSetu" : "Create Your Account"}
+                  <h1 style={{ fontFamily: "'DM Serif Display', serif", color: "#fff", fontSize: 18, fontWeight: 400, margin: 0 }}>
+                    {mode === "login" ? "Sign in to ArogyaSetu" : "Create your account"}
                   </h1>
-                  <p style={{ color: "#93b4dc", fontSize: 12, margin: 0 }}>Government Healthcare Portal</p>
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, margin: 0 }}>Government Healthcare Portal</p>
                 </div>
               </div>
             </div>
 
             <div style={{ padding: "28px 32px" }}>
-              {/* Login / Signup toggle */}
-              <div style={{ display: "flex", background: "#f4f6fb", borderRadius: 6, padding: 3, marginBottom: 20, border: "1px solid #dde3ed" }}>
+              {/* Mode toggle */}
+              <div style={{ display: "flex", background: "#f7f8fa", borderRadius: 6, padding: 3, marginBottom: 20, border: "1px solid #e2e8f0" }}>
                 {(["login", "signup"] as Mode[]).map(m => (
                   <button key={m} onClick={() => switchMode(m)}
                     style={{ flex: 1, padding: "8px", borderRadius: 4, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600, fontFamily: "inherit", transition: "all 0.15s",
-                      background: mode === m ? "#1a3a6b" : "transparent",
-                      color: mode === m ? "#fff" : "#4a5568" }}>
-                    {m === "login" ? "Sign In" : "Register"}
+                      background: mode === m ? "#0f2d52" : "transparent",
+                      color: mode === m ? "#fff" : "#6b7280" }}>
+                    {m === "login" ? "Sign in" : "Register"}
                   </button>
                 ))}
               </div>
 
-              {/* Email / Phone toggle */}
+              {/* Method toggle */}
               <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
                 {(["email", "phone"] as Method[]).map(m => (
                   <button key={m} onClick={() => switchMethod(m)}
-                    style={{ flex: 1, padding: "9px", border: `1.5px solid ${method === m ? "#1a3a6b" : "#dde3ed"}`,
+                    style={{ flex: 1, padding: "9px", border: `1.5px solid ${method === m ? "#0f2d52" : "#e2e8f0"}`,
                       background: method === m ? "#e8eef7" : "#fff",
-                      color: method === m ? "#1a3a6b" : "#4a5568",
+                      color: method === m ? "#0f2d52" : "#6b7280",
                       borderRadius: 6, cursor: "pointer", fontSize: 13, fontWeight: 600,
                       display: "flex", alignItems: "center", justifyContent: "center", gap: 6, fontFamily: "inherit" }}>
                     {m === "email" ? "Email" : "Phone OTP"}
@@ -300,7 +359,7 @@ export default function AuthPage() {
                           type={showPass ? "text" : "password"} onKeyDown={e => e.key === "Enter" && handleEmailSubmit()}
                           style={{ paddingRight: 44 }} />
                         <button onClick={() => setShowPass(s => !s)}
-                          style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#718096", cursor: "pointer", fontSize: 14 }}>
+                          style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#9ca3af", cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>
                           {showPass ? "Hide" : "Show"}
                         </button>
                       </div>
@@ -310,9 +369,9 @@ export default function AuthPage() {
                   <div>
                     <label>Mobile Number</label>
                     <div style={{ position: "relative" }}>
-                      <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 13, color: "#4a5568", fontWeight: 600, pointerEvents: "none" }}>+91</span>
+                      <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 13, color: "#374151", fontWeight: 600, pointerEvents: "none" }}>+91</span>
                       <input value={phone} onChange={e => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
-                        placeholder="10-digit number" type="tel" maxLength={10}
+                        placeholder="10-digit mobile number" type="tel" maxLength={10}
                         onKeyDown={e => e.key === "Enter" && handleSendOTP()}
                         style={{ paddingLeft: 48 }} />
                     </div>
@@ -330,20 +389,20 @@ export default function AuthPage() {
                 className="btn-primary"
                 style={{ width: "100%", marginTop: 20, padding: "12px", justifyContent: "center", fontSize: 14, opacity: loading ? 0.7 : 1 }}>
                 {loading ? "Please wait..."
-                  : method === "phone" ? `Send OTP to +91 ${phone || "XXXXXXXXXX"}`
-                  : mode === "login" ? "Sign In" : "Create Account"}
+                  : method === "phone" ? `Send OTP →`
+                  : mode === "login" ? "Sign in" : "Create account"}
               </button>
 
-              <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "#718096" }}>
+              <p style={{ textAlign: "center", marginTop: 16, fontSize: 13, color: "#6b7280" }}>
                 {mode === "login" ? "Don't have an account? " : "Already registered? "}
                 <button onClick={() => switchMode(mode === "login" ? "signup" : "login")}
-                  style={{ background: "none", border: "none", color: "#1a3a6b", cursor: "pointer", fontWeight: 600, fontSize: 13, fontFamily: "inherit" }}>
+                  style={{ background: "none", border: "none", color: "#0f2d52", cursor: "pointer", fontWeight: 600, fontSize: 13, fontFamily: "inherit" }}>
                   {mode === "login" ? "Register here" : "Sign in"}
                 </button>
               </p>
 
-              <p style={{ textAlign: "center", marginTop: 12, fontSize: 11, color: "#94a3b8", lineHeight: 1.6 }}>
-                This is a secure government portal. Your data is protected under the IT Act 2000.
+              <p style={{ textAlign: "center", marginTop: 12, fontSize: 11, color: "#9ca3af", lineHeight: 1.6 }}>
+                Secure government portal. Data protected under IT Act 2000.
               </p>
             </div>
           </div>
