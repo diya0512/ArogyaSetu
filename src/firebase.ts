@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, RecaptchaVerifier } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -18,4 +18,11 @@ export const db = getFirestore(app);
 // ✅ Disable app verification for localhost testing
 if (typeof window !== "undefined" && window.location.hostname === "localhost") {
   auth.settings.appVerificationDisabledForTesting = true;
+}
+
+// ✅ reCAPTCHA helper for phone auth
+export function setupRecaptcha(elementId: string) {
+  return new RecaptchaVerifier(auth, elementId, {
+    size: "invisible",
+  });
 }

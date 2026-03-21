@@ -4,12 +4,12 @@ import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const healthMetrics = [
-  { label: "Blood Pressure", value: "128/82", unit: "mmHg", status: "normal", icon: "❤️", color: "#ef4444" },
-  { label: "Blood Sugar", value: "110", unit: "mg/dL", status: "borderline", icon: "🩸", color: "#f59e0b" },
-  { label: "BMI", value: "24.6", unit: "kg/m²", status: "normal", icon: "⚖️", color: "#22c55e" },
-  { label: "Hemoglobin", value: "13.2", unit: "g/dL", status: "normal", icon: "🔬", color: "#06b6d4" },
-  { label: "Oxygen Level", value: "98", unit: "%", status: "normal", icon: "💨", color: "#8b5cf6" },
-  { label: "Heart Rate", value: "72", unit: "bpm", status: "normal", icon: "💓", color: "#ec4899" },
+  { label: "Blood Pressure", value: "128/82", unit: "mmHg", status: "normal", color: "#dc2626" },
+  { label: "Blood Sugar", value: "110", unit: "mg/dL", status: "borderline", color: "#d97706" },
+  { label: "BMI", value: "24.6", unit: "kg/m²", status: "normal", color: "#15803d" },
+  { label: "Hemoglobin", value: "13.2", unit: "g/dL", status: "normal", color: "#0369a1" },
+  { label: "Oxygen Level", value: "98", unit: "%", status: "normal", color: "#7c3aed" },
+  { label: "Heart Rate", value: "72", unit: "bpm", status: "normal", color: "#be185d" },
 ];
 
 const bpHistory = [
@@ -42,262 +42,276 @@ const appointments = [
 ];
 
 const schemes = [
-  { name: "Ayushman Bharat PM-JAY", status: "Active", cover: "₹5,00,000", used: "₹12,400", remaining: "₹4,87,600", color: "#22d3ee" },
-  { name: "National Health Mission", status: "Active", cover: "Unlimited", used: "Free", remaining: "—", color: "#22c55e" },
-  { name: "ESI Scheme", status: "Not Enrolled", cover: "—", used: "—", remaining: "—", color: "#64748b" },
+  { name: "Ayushman Bharat PM-JAY", status: "Active", cover: "₹5,00,000", used: "₹12,400", remaining: "₹4,87,600", color: "#1a3a6b" },
+  { name: "National Health Mission", status: "Active", cover: "Unlimited", used: "Free", remaining: "—", color: "#15803d" },
+  { name: "ESI Scheme", status: "Not Enrolled", cover: "—", used: "—", remaining: "—", color: "#718096" },
 ];
 
 const chartStyle = {
-  contentStyle: { background: "#1e293b", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#f1f5f9" },
-  labelStyle: { color: "#94a3b8" }
+  contentStyle: { background: "#fff", border: "1px solid #dde3ed", borderRadius: 6, color: "#1a1a2e", fontSize: 13 },
+  labelStyle: { color: "#4a5568" }
 };
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
 
   const tabs = [
-    { id: "overview", label: "📊 Overview" },
-    { id: "appointments", label: "📅 Appointments" },
-    { id: "prescriptions", label: "💊 Prescriptions" },
-    { id: "vaccinations", label: "💉 Vaccinations" },
-    { id: "schemes", label: "🏥 Schemes" },
+    { id: "overview", label: "Overview" },
+    { id: "appointments", label: "Appointments" },
+    { id: "prescriptions", label: "Prescriptions" },
+    { id: "vaccinations", label: "Vaccinations" },
+    { id: "schemes", label: "Health Schemes" },
   ];
 
   return (
-    <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 24px" }}>
-      <div style={{ fontSize: 13, color: "#64748b", marginBottom: 24, display: "flex", alignItems: "center", gap: 8 }}>
-        <Link href="/" style={{ color: "#22d3ee", textDecoration: "none" }}>Home</Link>
-        <span>›</span><span>Health Dashboard</span>
-      </div>
+    <div style={{ background: "#f4f6fb", minHeight: "100vh" }}>
 
-      {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div style={{ width: 60, height: 60, borderRadius: "50%", background: "linear-gradient(135deg,#06b6d4,#3b82f6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>👤</div>
-          <div>
-            <h1 style={{ fontSize: 26, fontWeight: 800, color: "#f1f5f9", margin: 0 }}>Health Dashboard</h1>
-            <p style={{ color: "#64748b", fontSize: 14, marginTop: 4 }}>Welcome, Citizen. Here is your personal health overview.</p>
+      {/* Page Header */}
+      <div style={{ background: "#1a3a6b", padding: "28px 24px", borderBottom: "3px solid #122856" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ fontSize: 12, color: "#93b4dc", marginBottom: 8 }}>
+            <Link href="/" style={{ color: "#93b4dc", textDecoration: "none" }}>Home</Link>
+            <span style={{ margin: "0 8px" }}>›</span>
+            <span>Health Dashboard</span>
+          </div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 48, height: 48, background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.3)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <h1 style={{ fontSize: 22, fontWeight: 700, color: "#fff", margin: 0 }}>My Health Dashboard</h1>
+                <p style={{ color: "#93b4dc", fontSize: 13, marginTop: 2 }}>Personal health overview — Ministry of Health & Family Welfare</p>
+              </div>
+            </div>
+            <Link href="/appointments" className="btn-outline" style={{ borderColor: "rgba(255,255,255,0.4)", color: "#fff", fontSize: 13 }}>
+              + Book Appointment
+            </Link>
           </div>
         </div>
-        <Link href="/appointments" className="btn-primary">+ Book Appointment</Link>
       </div>
 
-      {/* Tabs */}
-      <div style={{ display: "flex", gap: 4, background: "#1e293b", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 4, marginBottom: 32, width: "fit-content", flexWrap: "wrap" }}>
-        {tabs.map(t => (
-          <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
-            padding: "8px 18px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
-            background: activeTab === t.id ? "linear-gradient(135deg,#06b6d4,#3b82f6)" : "transparent",
-            color: activeTab === t.id ? "white" : "#64748b", whiteSpace: "nowrap"
-          }}>{t.label}</button>
-        ))}
-      </div>
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px" }}>
 
-      {/* OVERVIEW TAB */}
-      {activeTab === "overview" && (
-        <>
-          {/* Health Metrics */}
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9", marginBottom: 16 }}>Health Metrics</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14, marginBottom: 32 }}>
-            {healthMetrics.map(m => (
-              <div key={m.label} className="card card-hover" style={{ padding: 18, textAlign: "center" }}>
-                <div style={{ fontSize: 24, marginBottom: 8 }}>{m.icon}</div>
-                <div style={{ fontSize: 11, color: "#64748b", marginBottom: 4 }}>{m.label}</div>
-                <div style={{ fontWeight: 800, color: m.color, fontSize: 20 }}>{m.value}</div>
-                <div style={{ fontSize: 11, color: "#475569" }}>{m.unit}</div>
-                <span style={{
-                  display: "inline-block", marginTop: 8, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20,
-                  background: m.status === "normal" ? "rgba(34,197,94,0.12)" : "rgba(245,158,11,0.12)",
-                  color: m.status === "normal" ? "#4ade80" : "#fbbf24"
-                }}>{m.status}</span>
-              </div>
-            ))}
-          </div>
+        {/* Tabs */}
+        <div style={{ display: "flex", gap: 2, background: "#fff", border: "1px solid #dde3ed", borderRadius: 6, padding: 4, marginBottom: 28, width: "fit-content", flexWrap: "wrap", boxShadow: "0 1px 3px rgba(0,0,0,0.05)" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+              padding: "7px 18px", borderRadius: 4, border: "none", cursor: "pointer",
+              fontSize: 13, fontWeight: 600, fontFamily: "inherit", transition: "all 0.15s",
+              background: activeTab === t.id ? "#1a3a6b" : "transparent",
+              color: activeTab === t.id ? "#fff" : "#4a5568",
+              whiteSpace: "nowrap"
+            }}>{t.label}</button>
+          ))}
+        </div>
 
-          {/* BP Chart */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 32 }}>
-            <div className="card">
-              <h3 style={{ fontWeight: 700, color: "#f1f5f9", marginBottom: 4 }}>Blood Pressure History</h3>
-              <p style={{ fontSize: 12, color: "#64748b", marginBottom: 20 }}>Last 6 months — mmHg</p>
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={bpHistory}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="date" tick={{ fill: "#64748b", fontSize: 12 }} axisLine={false} />
-                  <YAxis tick={{ fill: "#64748b", fontSize: 11 }} domain={[60, 150]} axisLine={false} />
-                  <Tooltip {...chartStyle} />
-                  <Line type="monotone" dataKey="systolic" stroke="#ef4444" strokeWidth={2} dot={{ fill: "#ef4444", r: 4 }} name="Systolic" />
-                  <Line type="monotone" dataKey="diastolic" stroke="#22d3ee" strokeWidth={2} dot={{ fill: "#22d3ee", r: 4 }} name="Diastolic" />
-                </LineChart>
-              </ResponsiveContainer>
+        {/* OVERVIEW TAB */}
+        {activeTab === "overview" && (
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a3a6b", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.04em" }}>Health Metrics</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 12, marginBottom: 28 }}>
+              {healthMetrics.map(m => (
+                <div key={m.label} className="card" style={{ padding: 16, textAlign: "center", borderTop: `3px solid ${m.color}` }}>
+                  <div style={{ fontSize: 11, color: "#718096", marginBottom: 6, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em" }}>{m.label}</div>
+                  <div style={{ fontWeight: 800, color: m.color, fontSize: 22 }}>{m.value}</div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginBottom: 8 }}>{m.unit}</div>
+                  <span style={{
+                    display: "inline-block", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20,
+                    background: m.status === "normal" ? "#f0fdf4" : "#fffbeb",
+                    color: m.status === "normal" ? "#15803d" : "#d97706",
+                    border: `1px solid ${m.status === "normal" ? "#bbf7d0" : "#fde68a"}`
+                  }}>{m.status}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Quick Info */}
-            <div className="card">
-              <h3 style={{ fontWeight: 700, color: "#f1f5f9", marginBottom: 16 }}>Quick Summary</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {[
-                  { lbl: "Next Appointment", val: "22 Mar 2026 — Dr. Ramesh Kumar", color: "#22d3ee" },
-                  { lbl: "Active Medications", val: "2 medications", color: "#f59e0b" },
-                  { lbl: "Pending Vaccinations", val: "2 due soon", color: "#f87171" },
-                  { lbl: "Ayushman Cover Left", val: "₹4,87,600 remaining", color: "#4ade80" },
-                  { lbl: "Last Check-up", val: "05 Mar 2026", color: "#94a3b8" },
-                  { lbl: "Health Score", val: "78 / 100 (Good)", color: "#a78bfa" },
-                ].map(r => (
-                  <div key={r.lbl} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.04)", fontSize: 13 }}>
-                    <span style={{ color: "#64748b" }}>{r.lbl}</span>
-                    <span style={{ color: r.color, fontWeight: 600 }}>{r.val}</span>
-                  </div>
-                ))}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 28 }}>
+              <div className="card">
+                <h3 style={{ fontWeight: 700, color: "#1a3a6b", marginBottom: 4, fontSize: 15 }}>Blood Pressure History</h3>
+                <p style={{ fontSize: 12, color: "#718096", marginBottom: 20 }}>Last 6 months — mmHg</p>
+                <ResponsiveContainer width="100%" height={200}>
+                  <LineChart data={bpHistory}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+                    <XAxis dataKey="date" tick={{ fill: "#718096", fontSize: 12 }} axisLine={false} />
+                    <YAxis tick={{ fill: "#718096", fontSize: 11 }} domain={[60, 150]} axisLine={false} />
+                    <Tooltip {...chartStyle} />
+                    <Line type="monotone" dataKey="systolic" stroke="#dc2626" strokeWidth={2} dot={{ fill: "#dc2626", r: 3 }} name="Systolic" />
+                    <Line type="monotone" dataKey="diastolic" stroke="#1a3a6b" strokeWidth={2} dot={{ fill: "#1a3a6b", r: 3 }} name="Diastolic" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="card">
+                <h3 style={{ fontWeight: 700, color: "#1a3a6b", marginBottom: 16, fontSize: 15 }}>Quick Summary</h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                  {[
+                    { lbl: "Next Appointment", val: "22 Mar 2026 — Dr. Ramesh Kumar", color: "#1a3a6b" },
+                    { lbl: "Active Medications", val: "2 medications", color: "#d97706" },
+                    { lbl: "Pending Vaccinations", val: "2 due soon", color: "#dc2626" },
+                    { lbl: "Ayushman Cover Left", val: "₹4,87,600 remaining", color: "#15803d" },
+                    { lbl: "Last Check-up", val: "05 Mar 2026", color: "#4a5568" },
+                    { lbl: "Health Score", val: "78 / 100 — Good", color: "#7c3aed" },
+                  ].map((r, i) => (
+                    <div key={r.lbl} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid #f1f5f9", fontSize: 13 }}>
+                      <span style={{ color: "#718096" }}>{r.lbl}</span>
+                      <span style={{ color: r.color, fontWeight: 600 }}>{r.val}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {/* APPOINTMENTS TAB */}
-      {activeTab === "appointments" && (
-        <>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            <h2 style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9" }}>My Appointments</h2>
-            <Link href="/appointments" className="btn-primary">+ New Appointment</Link>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {appointments.map((a, i) => (
-              <div key={i} className="card card-hover" style={{ padding: 20 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div>
-                    <div style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 16, marginBottom: 4 }}>{a.doctor}</div>
-                    <div style={{ fontSize: 13, color: "#64748b" }}>{a.dept} — {a.hospital}</div>
-                    <div style={{ fontSize: 13, color: "#64748b", marginTop: 6 }}>📅 {a.date} &nbsp; 🕐 {a.time}</div>
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
-                    <span style={{
-                      padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700,
-                      background: a.status === "upcoming" ? "rgba(34,211,238,0.12)" : "rgba(255,255,255,0.06)",
-                      color: a.status === "upcoming" ? "#22d3ee" : "#64748b",
-                      border: a.status === "upcoming" ? "1px solid rgba(34,211,238,0.3)" : "1px solid rgba(255,255,255,0.08)"
-                    }}>
-                      {a.status === "upcoming" ? "🔵 Upcoming" : "✓ Completed"}
-                    </span>
-                    {a.status === "upcoming" && (
-                      <button style={{ background: "transparent", border: "1px solid rgba(239,68,68,0.3)", color: "#f87171", padding: "4px 12px", borderRadius: 6, fontSize: 12, cursor: "pointer" }}>Cancel</button>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* PRESCRIPTIONS TAB */}
-      {activeTab === "prescriptions" && (
-        <>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9", marginBottom: 20 }}>Prescription History</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {prescriptions.map((p, i) => (
-              <div key={i} className="card card-hover" style={{ padding: 20 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-                      <span style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 16 }}>💊 {p.med}</span>
-                      <span style={{
-                        padding: "2px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700,
-                        background: p.active ? "rgba(34,197,94,0.12)" : "rgba(255,255,255,0.06)",
-                        color: p.active ? "#4ade80" : "#64748b"
-                      }}>{p.active ? "Active" : "Expired"}</span>
-                    </div>
-                    <div style={{ fontSize: 13, color: "#64748b" }}>For: {p.for}</div>
-                    <div style={{ fontSize: 13, color: "#64748b", marginTop: 3 }}>Prescribed by: {p.by}</div>
-                  </div>
-                  <div style={{ textAlign: "right", fontSize: 13 }}>
-                    <div style={{ color: "#64748b" }}>Prescribed: <span style={{ color: "#94a3b8" }}>{p.date}</span></div>
-                    <div style={{ color: "#64748b", marginTop: 4 }}>Valid till: <span style={{ color: p.active ? "#22d3ee" : "#64748b" }}>{p.till}</span></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* VACCINATIONS TAB */}
-      {activeTab === "vaccinations" && (
-        <>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9", marginBottom: 20 }}>Vaccination Schedule</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {vaccinations.map((v, i) => (
-              <div key={i} className="card card-hover" style={{ padding: 20 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: "50%", background: v.status === "done" ? "rgba(34,197,94,0.12)" : "rgba(245,158,11,0.12)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>
-                      {v.status === "done" ? "✅" : "⏰"}
-                    </div>
+        {/* APPOINTMENTS TAB */}
+        {activeTab === "appointments" && (
+          <>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+              <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a3a6b", textTransform: "uppercase", letterSpacing: "0.04em" }}>My Appointments</h2>
+              <Link href="/appointments" className="btn-primary" style={{ fontSize: 13 }}>+ New Appointment</Link>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {appointments.map((a, i) => (
+                <div key={i} className="card" style={{ padding: 20, borderLeft: `3px solid ${a.status === "upcoming" ? "#1a3a6b" : "#dde3ed"}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
-                      <div style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 14 }}>{v.name}</div>
-                      <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
-                        {v.status === "done" ? `Administered: ${v.date}` : `Due: ${v.due}`}
+                      <div style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 15, marginBottom: 4 }}>{a.doctor}</div>
+                      <div style={{ fontSize: 13, color: "#718096" }}>{a.dept} — {a.hospital}</div>
+                      <div style={{ fontSize: 13, color: "#718096", marginTop: 6 }}>{a.date} &nbsp;|&nbsp; {a.time}</div>
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+                      <span style={{
+                        padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 600,
+                        background: a.status === "upcoming" ? "#eff6ff" : "#f4f6fb",
+                        color: a.status === "upcoming" ? "#1d4ed8" : "#718096",
+                        border: `1px solid ${a.status === "upcoming" ? "#bfdbfe" : "#dde3ed"}`
+                      }}>
+                        {a.status === "upcoming" ? "Upcoming" : "Completed"}
+                      </span>
+                      {a.status === "upcoming" && (
+                        <button style={{ background: "#fff", border: "1px solid #fecaca", color: "#dc2626", padding: "4px 12px", borderRadius: 4, fontSize: 12, cursor: "pointer" }}>Cancel</button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* PRESCRIPTIONS TAB */}
+        {activeTab === "prescriptions" && (
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a3a6b", marginBottom: 20, textTransform: "uppercase", letterSpacing: "0.04em" }}>Prescription History</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {prescriptions.map((p, i) => (
+                <div key={i} className="card" style={{ padding: 20, borderLeft: `3px solid ${p.active ? "#1a3a6b" : "#dde3ed"}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                        <span style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 15 }}>{p.med}</span>
+                        <span style={{
+                          padding: "2px 10px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                          background: p.active ? "#f0fdf4" : "#f4f6fb",
+                          color: p.active ? "#15803d" : "#718096",
+                          border: `1px solid ${p.active ? "#bbf7d0" : "#dde3ed"}`
+                        }}>{p.active ? "Active" : "Expired"}</span>
+                      </div>
+                      <div style={{ fontSize: 13, color: "#718096" }}>For: {p.for}</div>
+                      <div style={{ fontSize: 13, color: "#718096", marginTop: 2 }}>Prescribed by: {p.by}</div>
+                    </div>
+                    <div style={{ textAlign: "right", fontSize: 13 }}>
+                      <div style={{ color: "#718096" }}>Prescribed: <span style={{ color: "#4a5568", fontWeight: 500 }}>{p.date}</span></div>
+                      <div style={{ color: "#718096", marginTop: 4 }}>Valid till: <span style={{ color: p.active ? "#1a3a6b" : "#718096", fontWeight: 500 }}>{p.till}</span></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* VACCINATIONS TAB */}
+        {activeTab === "vaccinations" && (
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a3a6b", marginBottom: 20, textTransform: "uppercase", letterSpacing: "0.04em" }}>Vaccination Schedule</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {vaccinations.map((v, i) => (
+                <div key={i} className="card" style={{ padding: 18, borderLeft: `3px solid ${v.status === "done" ? "#15803d" : "#d97706"}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: v.status === "done" ? "#f0fdf4" : "#fffbeb", border: `1px solid ${v.status === "done" ? "#bbf7d0" : "#fde68a"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>
+                        {v.status === "done" ? "✓" : "!"}
+                      </div>
+                      <div>
+                        <div style={{ fontWeight: 600, color: "#1a1a2e", fontSize: 14 }}>{v.name}</div>
+                        <div style={{ fontSize: 12, color: "#718096", marginTop: 2 }}>
+                          {v.status === "done" ? `Administered: ${v.date}` : `Due: ${v.due}`}
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{
+                        padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 600,
+                        background: v.status === "done" ? "#f0fdf4" : "#fffbeb",
+                        color: v.status === "done" ? "#15803d" : "#d97706",
+                        border: `1px solid ${v.status === "done" ? "#bbf7d0" : "#fde68a"}`
+                      }}>
+                        {v.status === "done" ? "Completed" : "Due Soon"}
+                      </span>
+                      {v.status === "due" && (
+                        <Link href="/appointments" className="btn-primary" style={{ fontSize: 12, padding: "6px 14px" }}>Book Slot</Link>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* SCHEMES TAB */}
+        {activeTab === "schemes" && (
+          <>
+            <h2 style={{ fontSize: 16, fontWeight: 700, color: "#1a3a6b", marginBottom: 20, textTransform: "uppercase", letterSpacing: "0.04em" }}>Government Health Schemes</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {schemes.map((s, i) => (
+                <div key={i} className="card" style={{ padding: 24, borderLeft: `3px solid ${s.color}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                        <span style={{ fontWeight: 700, color: "#1a1a2e", fontSize: 16 }}>{s.name}</span>
+                        <span style={{
+                          padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                          background: s.status === "Active" ? "#f0fdf4" : "#f4f6fb",
+                          color: s.status === "Active" ? "#15803d" : "#718096",
+                          border: `1px solid ${s.status === "Active" ? "#bbf7d0" : "#dde3ed"}`
+                        }}>{s.status}</span>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,160px)", gap: 20 }}>
+                        {[
+                          { lbl: "Total Cover", val: s.cover },
+                          { lbl: "Used This Year", val: s.used },
+                          { lbl: "Remaining", val: s.remaining },
+                        ].map(r => (
+                          <div key={r.lbl}>
+                            <div style={{ fontSize: 11, color: "#718096", marginBottom: 3, textTransform: "uppercase", letterSpacing: "0.04em", fontWeight: 600 }}>{r.lbl}</div>
+                            <div style={{ fontWeight: 700, color: s.color, fontSize: 16 }}>{r.val}</div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <span style={{
-                      padding: "4px 14px", borderRadius: 20, fontSize: 12, fontWeight: 700,
-                      background: v.status === "done" ? "rgba(34,197,94,0.12)" : "rgba(245,158,11,0.12)",
-                      color: v.status === "done" ? "#4ade80" : "#fbbf24"
-                    }}>
-                      {v.status === "done" ? "✓ Done" : "Due Soon"}
-                    </span>
-                    {v.status === "due" && (
-                      <Link href="/appointments" className="btn-primary" style={{ fontSize: 12, padding: "6px 14px" }}>Book Slot</Link>
-                    )}
-                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* SCHEMES TAB */}
-      {activeTab === "schemes" && (
-        <>
-          <h2 style={{ fontSize: 18, fontWeight: 700, color: "#f1f5f9", marginBottom: 20 }}>Government Health Schemes</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            {schemes.map((s, i) => (
-              <div key={i} className="card card-hover" style={{ padding: 24 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                      <span style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 16 }}>{s.name}</span>
-                      <span style={{
-                        padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700,
-                        background: s.status === "Active" ? "rgba(34,197,94,0.12)" : "rgba(255,255,255,0.06)",
-                        color: s.status === "Active" ? "#4ade80" : "#64748b"
-                      }}>{s.status}</span>
-                    </div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3,160px)", gap: 16 }}>
-                      {[
-                        { lbl: "Total Cover", val: s.cover },
-                        { lbl: "Used This Year", val: s.used },
-                        { lbl: "Remaining", val: s.remaining },
-                      ].map(r => (
-                        <div key={r.lbl}>
-                          <div style={{ fontSize: 11, color: "#64748b", marginBottom: 3 }}>{r.lbl}</div>
-                          <div style={{ fontWeight: 700, color: s.color, fontSize: 16 }}>{r.val}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 20, padding: 16, background: "rgba(34,211,238,0.05)", border: "1px solid rgba(34,211,238,0.12)", borderRadius: 12, fontSize: 13, color: "#94a3b8" }}>
-            💡 To enroll in new schemes or check eligibility, visit your nearest government hospital or call <strong style={{ color: "#22d3ee" }}>1800-111-565</strong>.
-          </div>
-        </>
-      )}
+              ))}
+            </div>
+            <div style={{ marginTop: 16, padding: "14px 18px", background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: 6, fontSize: 13, color: "#1d4ed8" }}>
+              To enroll in new schemes or check eligibility, visit your nearest government hospital or call <strong>1800-111-565</strong>.
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
