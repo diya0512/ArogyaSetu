@@ -4,14 +4,14 @@ import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, Legend } from "recharts";
 
 const diseases = [
-  { name: "Dengue Fever", risk: "HIGH RISK", riskLevel: "high", cases: "48,230", deaths: "142", recovered: "45,100", icon: "🦟" },
-  { name: "Tuberculosis", risk: "HIGH RISK", riskLevel: "high", cases: "21,00,000", deaths: "61,000", recovered: "19,00,000", icon: "🫁" },
-  { name: "Malaria", risk: "MEDIUM RISK", riskLevel: "medium", cases: "1,67,000", deaths: "380", recovered: "1,63,000", icon: "🦠" },
-  { name: "COVID-19", risk: "LOW RISK", riskLevel: "low", cases: "12,400", deaths: "8", recovered: "12,100", icon: "🔬" },
-  { name: "Typhoid", risk: "MEDIUM RISK", riskLevel: "medium", cases: "92,000", deaths: "220", recovered: "89,000", icon: "🧫" },
-  { name: "Cholera", risk: "MEDIUM RISK", riskLevel: "medium", cases: "3,200", deaths: "18", recovered: "3,100", icon: "💧" },
-  { name: "Influenza (H3N2)", risk: "MEDIUM RISK", riskLevel: "medium", cases: "28,400", deaths: "22", recovered: "28,200", icon: "🤧" },
-  { name: "Japanese Encephalitis", risk: "HIGH RISK", riskLevel: "high", cases: "1,840", deaths: "312", recovered: "1,480", icon: "🧠" },
+  { name: "Dengue Fever", risk: "HIGH RISK", riskLevel: "high", cases: "48,230", deaths: "142", recovered: "45,100", icon: "" },
+  { name: "Tuberculosis", risk: "HIGH RISK", riskLevel: "high", cases: "21,00,000", deaths: "61,000", recovered: "19,00,000", icon: "" },
+  { name: "Malaria", risk: "MEDIUM RISK", riskLevel: "medium", cases: "1,67,000", deaths: "380", recovered: "1,63,000", icon: "" },
+  { name: "COVID-19", risk: "LOW RISK", riskLevel: "low", cases: "12,400", deaths: "8", recovered: "12,100", icon: "" },
+  { name: "Typhoid", risk: "MEDIUM RISK", riskLevel: "medium", cases: "92,000", deaths: "220", recovered: "89,000", icon: "" },
+  { name: "Cholera", risk: "MEDIUM RISK", riskLevel: "medium", cases: "3,200", deaths: "18", recovered: "3,100", icon: "" },
+  { name: "Influenza (H3N2)", risk: "MEDIUM RISK", riskLevel: "medium", cases: "28,400", deaths: "22", recovered: "28,200", icon: "" },
+  { name: "Japanese Encephalitis", risk: "HIGH RISK", riskLevel: "high", cases: "1,840", deaths: "312", recovered: "1,480", icon: "" },
 ];
 
 const trendData = [
@@ -80,7 +80,7 @@ export default function DiseaseTrackerPage() {
 
       {/* Tabs */}
       <div style={{ display: "flex", gap: 4, background: "#1e293b", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 12, padding: 4, width: "fit-content", marginBottom: 32 }}>
-        {[["tracker", "📊 Disease Tracker"], ["checker", "🤖 AI Symptom Checker"]].map(([tab, label]) => (
+        {[["tracker", " Disease Tracker"], ["checker", " AI Symptom Checker"]].map(([tab, label]) => (
           <button key={tab} onClick={() => setActiveTab(tab as "tracker" | "checker")} style={{
             padding: "10px 24px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 14, fontWeight: 600,
             background: activeTab === tab ? "linear-gradient(135deg,#06b6d4,#3b82f6)" : "transparent",
@@ -199,9 +199,9 @@ export default function DiseaseTrackerPage() {
           {/* Tips */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16 }}>
             {[
-              { icon: "💧", title: "Stay Hydrated", desc: "Drink 8-10 glasses of clean water daily. Use filtered or boiled water in outbreak zones.", color: "#06b6d4" },
-              { icon: "💉", title: "Get Vaccinated", desc: "Keep vaccinations up-to-date. Free vaccines available at all government health centres.", color: "#22c55e" },
-              { icon: "🦟", title: "Use Mosquito Nets", desc: "Use bed nets and repellents. Drain standing water to prevent mosquito breeding.", color: "#f59e0b" },
+              { icon: "", title: "Stay Hydrated", desc: "Drink 8-10 glasses of clean water daily. Use filtered or boiled water in outbreak zones.", color: "#06b6d4" },
+              { icon: "", title: "Get Vaccinated", desc: "Keep vaccinations up-to-date. Free vaccines available at all government health centres.", color: "#22c55e" },
+              { icon: "", title: "Use Mosquito Nets", desc: "Use bed nets and repellents. Drain standing water to prevent mosquito breeding.", color: "#f59e0b" },
             ].map(t => (
               <div key={t.title} style={{ background: `${t.color}0d`, border: `1px solid ${t.color}20`, borderRadius: 14, padding: 20 }}>
                 <div style={{ fontSize: 28, marginBottom: 10 }}>{t.icon}</div>
@@ -216,7 +216,7 @@ export default function DiseaseTrackerPage() {
       {activeTab === "checker" && (
         <div style={{ maxWidth: 700 }}>
           <div className="card" style={{ marginBottom: 20 }}>
-            <h2 style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 18, marginBottom: 8 }}>🤖 AI Symptom Checker</h2>
+            <h2 style={{ fontWeight: 700, color: "#f1f5f9", fontSize: 18, marginBottom: 8 }}> AI Symptom Checker</h2>
             <p style={{ color: "#64748b", fontSize: 14, marginBottom: 24 }}>Select your symptoms below and our AI will help identify potential conditions. This is not a substitute for medical advice.</p>
 
             {checkerStep === 0 && (
@@ -246,7 +246,7 @@ export default function DiseaseTrackerPage() {
                   <div style={{ fontSize: 13, color: "#64748b", marginBottom: 8 }}>Selected symptoms: {selectedSymptoms.map(s => <span key={s} style={{ background: "rgba(34,211,238,0.1)", color: "#22d3ee", padding: "2px 8px", borderRadius: 12, fontSize: 12, marginRight: 6 }}>{s}</span>)}</div>
                 </div>
                 <div style={{ background: "rgba(34,211,238,0.05)", border: "1px solid rgba(34,211,238,0.15)", borderRadius: 12, padding: 20, marginBottom: 16 }}>
-                  <div style={{ fontWeight: 700, color: "#22d3ee", marginBottom: 12 }}>🤖 AI Analysis Result</div>
+                  <div style={{ fontWeight: 700, color: "#22d3ee", marginBottom: 12 }}>AI Analysis Result</div>
                   <p style={{ fontSize: 14, color: "#94a3b8", lineHeight: 1.7, marginBottom: 16 }}>
                     Based on your symptoms ({selectedSymptoms.join(", ")}), you may be experiencing signs of a viral or bacterial infection. The most likely conditions to consider include:
                   </p>
@@ -269,7 +269,7 @@ export default function DiseaseTrackerPage() {
                   </div>
                 </div>
                 <div style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 10, padding: 14, fontSize: 13, color: "#fca5a5", marginBottom: 16 }}>
-                  ⚠️ <strong>Disclaimer:</strong> This AI analysis is for informational purposes only. Please consult a qualified doctor for proper diagnosis and treatment.
+                   <strong>Disclaimer:</strong> This AI analysis is for informational purposes only. Please consult a qualified doctor for proper diagnosis and treatment.
                 </div>
                 <div style={{ display: "flex", gap: 12 }}>
                   <Link href="/appointments" className="btn-primary">Book Doctor Appointment</Link>
